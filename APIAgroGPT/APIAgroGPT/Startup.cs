@@ -84,7 +84,7 @@ namespace APIAgroGPT
                 });
             });
             services.AddPredictionEnginePool<MLModel2.ModelInput, MLModel2.ModelOutput>()
-                .FromFile(@"C:\Users\a895091\OneDrive - Atos\Área de Trabalho\Estágio\APIAgroGPT\APIAgroGPT\MLModel2.zip");
+                .FromFile(@"C:\Users\a895091\OneDrive - Atos\Área de Trabalho\Estágio\Estagio-API-REACT-C\APIAgroGPT\APIAgroGPT\MLModel2.zip");
 
             // Adicione a configuração de CORS aqui
             services.AddCors(options =>
