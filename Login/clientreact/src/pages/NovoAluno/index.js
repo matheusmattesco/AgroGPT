@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { FiCornerDownLeft, FiUserPlus } from "react-icons/fi";
 import api from "../../services/api";
 
+
 export default function NovoAluno() {
 
     const [id, setId] = useState(null);
@@ -68,25 +69,27 @@ export default function NovoAluno() {
     } 
 
   return (
-    <div className="novo-aluno-container">
-      <div className="content">
-        <section className="form">
-          <FiUserPlus size={105} color="#17202a" />
-          <h1>{alunoId === '0'? 'Incluir novo Aluno:' : 'Atualizar Aluno'}</h1>
-          <Link className="back-link" to="/alunos">
-            <FiCornerDownLeft size={25} color="#17292a" /> Retornar
-          </Link>
-        </section>
-        <form onSubmit={saveOrUpdate}>
-          <input placeholder="Nome" 
-          value={nome} onChange={e=> setNome(e.target.value)}/>
-          <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}/>
-          <input placeholder="Idade" value={idade} onChange={e=> setIdade(e.target.value)}/>
-          <button className="button" type="submit">
-            {alunoId === '0'? 'Incluir' : 'Atualizar'}
-          </button>
-        </form>
+    
+      <div className="novo-aluno-container">
+        <div className="content">
+          <section className="form">
+            <FiUserPlus size={105} color="#17202a" />
+            <h1>{alunoId === '0'? 'Incluir novo Aluno:' : 'Atualizar Aluno'}</h1>
+            <Link className="back-link" to="/alunos">
+              <FiCornerDownLeft size={25} color="#17292a" /> Retornar
+            </Link>
+          </section>
+          <form onSubmit={saveOrUpdate}>
+            <input placeholder="Nome" 
+            value={nome} onChange={e=> setNome(e.target.value)}/>
+            <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}/>
+            <input placeholder="Idade" value={idade} onChange={e=> setIdade(e.target.value)}/>
+            <button className="button" type="submit">
+              {alunoId === '0'? 'Incluir' : 'Atualizar'}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    
   );
 }
