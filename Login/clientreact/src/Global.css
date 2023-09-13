@@ -20,6 +20,9 @@ input, button, textarea{
 
 button{
     cursor: pointer;
+    outline: unset;
+    position: relative;
+    border: unset;
 }
 
 form input{
@@ -27,7 +30,7 @@ form input{
     height: 60px;
     color: #333333;
     border: 1px solid #DCDCE6;
-    border-radius: 8px;
+    border-radius: 2px;
     padding: 0 24px;
     margin-top: 16px;
 }

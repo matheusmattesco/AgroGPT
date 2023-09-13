@@ -1,15 +1,28 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./style.css";
+import {VscEye, VscEyeClosed} from "react-icons/vsc"
 
 import api from "../../services/api";
 
-import logoImage from "../../assets/login.png";
+import logoImage from "../../assets/Icone ChatGPT.png";
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [eyeIsClosed, setEyeState] = useState(false);
+    const inputRef = useRef(null);
+
+    const toggleShow = () => {
+        if (inputRef.current.type === "password") {
+            setEyeState(true)
+            inputRef.current.type = "text";
+        } else {
+            setEyeState(false)
+            inputRef.current.type = "password";
+        }
+    };
 
     const navigate = useNavigate(); // Use useNavigate para navegação
 
@@ -36,28 +49,37 @@ export default function Login() {
     }
 
     return (
+      <div className="background">
         <div className="login-container">
             <section className="form">
                 <img src={logoImage} alt="Login" id="img1" />
                 <form onSubmit={login}>
-                    <h1>Cadastro de Alunos</h1>
                     <input
+                        className="input-login"
                         placeholder="Email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                     />
-                    <input
+                    <input 
+                        ref={inputRef}
+                        className="input-login2"
                         type="password"
                         placeholder="Password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />
-                    <button className="button" type="submit">
+                    
+                        <span className="icon" onClick={toggleShow}>
+                            {eyeIsClosed ? <VscEyeClosed /> : <VscEye />}
+                        </span>
+                    
+                    <button className="button-login" type="submit">
                         Login
                     </button>
                     {error && <p className="error-message">{error}</p>}
                 </form>
             </section>
         </div>
+    </div> 
     );
 }

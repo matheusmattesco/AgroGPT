@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
 import { FiXCircle, FiEdit, FiUserX } from 'react-icons/fi';
 import api from "../../services/api";
-import logoCadastro from "../../assets/cadastro.png";
+import logoCadastro from "../../assets/Icone ChatGPT.png";
 
 export default function Alunos() {
     const [nome, setNome] = useState('');
