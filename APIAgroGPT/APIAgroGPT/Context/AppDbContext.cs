@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using static MLModel2;
 
 namespace APIAgroGPT.Context
 {
@@ -11,7 +12,7 @@ namespace APIAgroGPT.Context
         {
 
         }
-
+        public DbSet<ModelOutput> MLModelOutputs { get; set; }
         public DbSet<Aluno> Alunos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,6 +24,13 @@ namespace APIAgroGPT.Context
                 .HasKey(u => u.Email);
 
             // Adicione outras configurações do modelo aqui, se necessário.
+            modelBuilder.Entity<ModelOutput>()
+                .Property(e => e.FeaturesJson)
+                .IsRequired(false);
+
+            modelBuilder.Entity<ModelOutput>()
+                .Property(e => e.ScoreJson)
+                .IsRequired(false);
 
             modelBuilder.Entity<Aluno>().HasData(
                 new Aluno

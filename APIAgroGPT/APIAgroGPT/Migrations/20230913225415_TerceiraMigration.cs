@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace APIAgroGPT.Migrations
 {
     /// <inheritdoc />
-    public partial class InicialIdentity : Migration
+    public partial class TerceiraMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,6 +65,29 @@ namespace APIAgroGPT.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Email);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MLModelOutput",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    N = table.Column<float>(type: "real", nullable: false),
+                    P = table.Column<float>(type: "real", nullable: false),
+                    K = table.Column<float>(type: "real", nullable: false),
+                    Temperature = table.Column<float>(type: "real", nullable: false),
+                    Humidity = table.Column<float>(type: "real", nullable: false),
+                    Ph = table.Column<float>(type: "real", nullable: false),
+                    Rainfall = table.Column<float>(type: "real", nullable: false),
+                    Label = table.Column<long>(type: "bigint", nullable: false),
+                    FeaturesJson = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PredictedLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ScoreJson = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MLModelOutput", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -242,6 +265,9 @@ namespace APIAgroGPT.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "MLModelOutput");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

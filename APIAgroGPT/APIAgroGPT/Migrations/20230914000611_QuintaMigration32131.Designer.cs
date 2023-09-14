@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIAgroGPT.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230905191932_InicialIdentity")]
-    partial class InicialIdentity
+    [Migration("20230914000611_QuintaMigration32131")]
+    partial class QuintaMigration32131
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,53 @@ namespace APIAgroGPT.Migrations
                             Idade = 22,
                             Nome = "Manuel Bueno"
                         });
+                });
+
+            modelBuilder.Entity("MLModel2+ModelOutput", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FeaturesJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Humidity")
+                        .HasColumnType("real");
+
+                    b.Property<float>("K")
+                        .HasColumnType("real");
+
+                    b.Property<long>("Label")
+                        .HasColumnType("bigint");
+
+                    b.Property<float>("N")
+                        .HasColumnType("real");
+
+                    b.Property<float>("P")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Ph")
+                        .HasColumnType("real");
+
+                    b.Property<string>("PredictedLabel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Rainfall")
+                        .HasColumnType("real");
+
+                    b.Property<string>("ScoreJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Temperature")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MLModelOutputs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

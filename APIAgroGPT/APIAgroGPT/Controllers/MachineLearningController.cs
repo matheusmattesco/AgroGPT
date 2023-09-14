@@ -1,30 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using APIAgroGPT.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ML;
-using MLModel2_WebApi2;// Importe o namespace do seu modelo
+using MLModel2_WebApi2; // Importe o namespace do seu modelo
 
 [Route("api/[controller]")]
 [ApiController]
 public class MachineLearningController : ControllerBase
 {
     private readonly PredictionEnginePool<MLModel2.ModelInput, MLModel2.ModelOutput> _predictionEnginePool;
+    private readonly IMLModelOutput _modelOutputService; // Injete o serviço aqui
 
-    public MachineLearningController(PredictionEnginePool<MLModel2.ModelInput, MLModel2.ModelOutput> predictionEnginePool)
+    public MachineLearningController(
+        PredictionEnginePool<MLModel2.ModelInput, MLModel2.ModelOutput> predictionEnginePool,
+        IMLModelOutput modelOutputService) // Injete o serviço no construtor
     {
         _predictionEnginePool = predictionEnginePool;
+        _modelOutputService = modelOutputService; // Atribua o serviço à variável local
     }
 
     [HttpPost("predict")]
-    public ActionResult<MLModel2.ModelOutput> Predict([FromBody] MLModel2.ModelInput input)
+    public async Task<ActionResult<MLModel2.ModelOutput>> Predict([FromBody] MLModel2.ModelInput input)
     {
-        try
-        {
             var prediction = _predictionEnginePool.Predict(input);
+
+            await _modelOutputService.AddMLModel(prediction); 
+
             return Ok(prediction);
-        }
-        catch (Exception ex)
-        {
-            // Lide com exceções, se necessário
-            return BadRequest($"Erro na previsão: {ex.Message}");
-        }
+        
     }
+
 }
