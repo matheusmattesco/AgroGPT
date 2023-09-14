@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
+import Predicao from "./pages/Predicoes";
 import Alunos from './pages/Alunos';
 import NovoAluno from "./pages/NovoAluno";
 import SoilPrediction from "./pages/soilPrediction";
@@ -15,6 +16,8 @@ export default function WebRoute() {
                 <Route path="/aluno/novo/:alunoId" element={<NovoAluno />}/>
                 <Route path="/soil-prediction" element={<SoilPrediction />} />
                 <Route path="/" element={<Inicio />} />
+                <Route path="/inicio" element={<Predicao />} />
+
             </Routes>
         </BrowserRouter>
     );

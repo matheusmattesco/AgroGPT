@@ -29,4 +29,11 @@ public class MachineLearningController : ControllerBase
         
     }
 
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<MLModel2.ModelOutput>>> GetPredicao()
+    {
+        var predicao = await _modelOutputService.GetPredicao();
+        return Ok(predicao);
+    }
+
 }

@@ -29,5 +29,17 @@ namespace APIAgroGPT.Services
             _context.Add(prediction);
             await _context.SaveChangesAsync();
         }
+
+        async Task<IEnumerable<MLModel2.ModelOutput>> IMLModelOutput.GetPredicao()
+        {
+            try
+            {
+                return await _context.MLModelOutputs.ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
