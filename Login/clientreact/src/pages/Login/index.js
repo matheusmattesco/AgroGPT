@@ -41,7 +41,7 @@ export default function Login() {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('expiration', response.data.expiration);
 
-            navigate('/alunos'); // Use navigate para redirecionar
+            navigate('/inicio'); // Use navigate para redirecionar
 
         } catch (error) {
             alert('O login falhou: ' + error.message);
