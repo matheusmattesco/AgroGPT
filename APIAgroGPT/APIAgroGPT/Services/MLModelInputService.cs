@@ -41,5 +41,17 @@ namespace APIAgroGPT.Services
                 throw;
             }
         }
+
+        async Task<MLModel2.ModelOutput> IMLModelOutput.GetPredicao(int id)
+        {
+            var predicao = await _context.MLModelOutputs.FindAsync(id);
+            return predicao;
+        }
+
+       async Task IMLModelOutput.DeletePredicao(MLModel2.ModelOutput ModelOutput)
+        {
+            _context.MLModelOutputs.Remove(ModelOutput);
+            await _context.SaveChangesAsync();
+        }
     }
 }

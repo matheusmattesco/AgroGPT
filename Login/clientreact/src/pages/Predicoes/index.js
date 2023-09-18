@@ -89,12 +89,33 @@ export default function Alunos() {
         }
     };
 
+    const handleExcluirPredicao = async (id) => {
+        try {
+            const apiUrl = 'https://localhost:7181';
+            const response = await fetch(apiUrl + `/api/MachineLearning/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Origin': 'http://localhost:3000'
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Failed to delete. Status: ${response.status}`);
+            }
+    
+            // Atualize a lista de previsões após a exclusão
+            const updatedPredicoes = predicao.filter(pred => pred.id !== id);
+            setPredicao(updatedPredicoes);
+        } catch (error) {
+            console.error("Erro na solicitação:", error);
+        }
+    };
+
     ////////////////////////////////////////////////////////////////////////////
 
     const email = localStorage.getItem('email');
     const token = localStorage.getItem('token');
-
-
 
     const history = useNavigate(); // Defina history como uma constante
 
@@ -152,7 +173,7 @@ export default function Alunos() {
                         <b>Chuva: {predicao.rainfall}</b> <br /> <br />
                         <b>Umidade: {predicao.humidity}</b> <br /> <br />
                         <b>Resultado: </b>{predicao.predictedLabel} <br /> <br />
-                        <button type="button">
+                        <button type="button" onClick={() => handleExcluirPredicao(predicao.id)}>
                             <FiUserX size="25" color="#17202a" />
                         </button>
                         <button type="button">
