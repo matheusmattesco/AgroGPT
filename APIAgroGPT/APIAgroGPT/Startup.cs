@@ -3,14 +3,10 @@ using APIAgroGPT.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.ML;
 using System.Text;
-using System.Threading.Tasks;
-using MLModel2_WebApi2;
 
 namespace APIAgroGPT
 {
@@ -54,6 +50,7 @@ namespace APIAgroGPT
             services.AddScoped<IAuthenticate, AuthenticateService>();
 
             // services.AddScoped<IMLModelOutput, MLModelOutput>();
+            
             services.AddScoped<IMLModelOutput, ModelService>();
 
             services.AddControllers();

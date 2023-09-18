@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './style.css';
 
+
 export default function SoilPrediction() {
     const [temperature, setTemperature] = useState(20);
     const [humidity, setHumidity] = useState(80);

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
-import { FiXCircle, FiEdit, FiUserX } from 'react-icons/fi';
+import { FiXCircle, FiEdit, FiUserX , FiDownload} from 'react-icons/fi';
 import api from "../../services/api";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import logoCadastro from "../../assets/Icone ChatGPT.png";
@@ -63,12 +63,13 @@ export default function Alunos() {
             const scores = prediction.score;
             const maxNumber = Math.max(...scores) * 100;
 
+
             // Mapeando os rótulos
             const labels = [
-                "arroz", "milho", "grão de bico", "feijão", "feijão bóer",
+                "coco", "milho", "grão de bico", "feijão", "feijão bóer",
                 "feijão mensal", "feijão mungo", "blackgram", "lentilha", "romã",
                 "banana", "manga", "uvas", "melancia", "melão",
-                "maçã", "laranja", "mamão", "coco", "algodão",
+                "maçã", "laranja", "mamão", "arroz", "algodão",
                 "juta", "café"
             ];
 
@@ -79,9 +80,9 @@ export default function Alunos() {
             }));
 
             const maxScoreIndex = scores.indexOf(Math.max(...scores));
-            const newPredictedLabel = labels[maxScoreIndex];
+            const newPredictedLabel = prediction.predictedLabel;
             setPredictedLabel(newPredictedLabel);
-            setResult2(JSON.stringify(labeledScores, null, 2));
+           // setResult2(JSON.stringify(labeledScores, null, 2));
             setMaxNumber(maxNumber.toFixed(2));
         } catch (error) {
             console.error("Erro na solicitação:", error);
@@ -145,9 +146,18 @@ export default function Alunos() {
                     <li key={predicao.id}>
                         <b>Id: {predicao.id}</b> <br /> <br />
                         <b>Nitrato: </b>{predicao.n} <br /> <br />
-                        <b>Pottásio: {predicao.p}</b> <br /> <br />
+                        <b>Fósforo: {predicao.p}</b> <br /> <br />
+                        <b>Potásio: {predicao.k}</b> <br /> <br />
                         <b>PH {predicao.ph}</b> <br /><br />
+                        <b>Chuva: {predicao.rainfall}</b> <br /> <br />
+                        <b>Umidade: {predicao.humidity}</b> <br /> <br />
                         <b>Resultado: </b>{predicao.predictedLabel} <br /> <br />
+                        <button type="button">
+                            <FiUserX size="25" color="#17202a" />
+                        </button>
+                        <button type="button">
+                            <FiDownload size="25" color="#17202a" />
+                        </button>
                     </li>
                 ))}
             </ul>

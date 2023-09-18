@@ -90,7 +90,7 @@
     animation: 
         typing 8s steps(33),
         cursor .2s step-end infinite alternate;
-    animation-iteration-count: 3;
+    animation-iteration-count: infinite;
     margin-left: 3rem;
     z-index: 2;
     
