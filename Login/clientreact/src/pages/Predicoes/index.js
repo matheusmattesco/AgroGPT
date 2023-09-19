@@ -271,7 +271,10 @@ export default function Alunos() {
 
         <ModalFooter>
         <button id="predictBtn" onClick={handlePredict}> Realizar Predição </button>
-          <button className='btn btn-danger' onClick={() => abriFecharModalIncluir()}>Fechar</button>
+        <button className='btn btn-danger' onClick={() => {
+            abriFecharModalIncluir();
+            window.location.reload(); // Isso recarregará a página
+            }}>Fechar</button>
           <div id="result" className="result-container">
                     A Melhor cultura para o seu solo é {predictedLabel} e com a porcentagem de sucesso de {maxNumber}%
                 </div>
