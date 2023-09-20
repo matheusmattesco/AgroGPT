@@ -81,6 +81,7 @@ public partial class MLModel2
         [NotMapped]
         public float[] Score { get; set; }
 
+
     }
 
     #endregion
