@@ -50,7 +50,7 @@ namespace APIAgroGPT
             services.AddScoped<IAuthenticate, AuthenticateService>();
 
             // services.AddScoped<IMLModelOutput, MLModelOutput>();
-            
+
             services.AddScoped<IMLModelOutput, ModelService>();
 
             services.AddControllers();
