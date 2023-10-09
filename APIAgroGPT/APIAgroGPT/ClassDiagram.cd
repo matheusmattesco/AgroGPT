@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MLModel2">
+    <Position X="5.25" Y="2.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="MLModel2.ModelInput">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\MachineLearning.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="MLModel2.ModelOutput">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\MachineLearning.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAIAAAAAAAAAAAAAAAAAAAAAAgAAAAAg=</HashCode>
+      <FileName>Models\MachineLearning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningController">
+    <Position X="2.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAEgAAAAAAAAAEAAAAg=</HashCode>
+      <FileName>Controllers\MachineLearningController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.ViewModels.LoginModel" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\LoginModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.ViewModels.RegisterModel" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>ViewModels\RegisterModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.ViewModels.UserToken" Collapsed="true">
+    <Position X="10.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>ViewModels\UserToken.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Models.MLModelOutput" Collapsed="true">
+    <Position X="7.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAFAgAAAgAACADAAAAAAAAAAAEAABAAJBEAAA=</HashCode>
+      <FileName>Models\IA.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Models.Aluno">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Models\Aluno.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Controllers.AccountController">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAEQAQAAAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Context.AppDbContext" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAABAAABAAA=</HashCode>
+      <FileName>Context\AppDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Startup">
+    <Position X="1.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Services.ModelService">
+    <Position X="14.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAABQAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\MLModelInputService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="APIAgroGPT.Services.IAlunoService">
+    <Position X="13.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAQAABAAE=</HashCode>
+      <FileName>Services\IAlunoService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="APIAgroGPT.Services.IAuthenticate">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\IAuthenticate.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="APIAgroGPT.Services.IMLModelOutput">
+    <Position X="9.25" Y="3" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAIAAAAACAAAAAAA=</HashCode>
+      <FileName>Services\IMLModelOutput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,7 +1,7 @@
 ﻿using APIAgroGPT.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ML;
-using MLModel2_WebApi2; // Importe o namespace do seu modelo
+using MLModel2_WebApi2;
 using System;
 using Microsoft.AspNetCore.Http;
 using APIAgroGPT.Models;
@@ -11,14 +11,14 @@ using APIAgroGPT.Models;
 public class MachineLearningController : ControllerBase
 {
     private readonly PredictionEnginePool<MLModel2.ModelInput, MLModel2.ModelOutput> _predictionEnginePool;
-    private readonly IMLModelOutput _modelOutputService; // Injete o serviço aqui
+    private readonly IMLModelOutput _modelOutputService; 
 
     public MachineLearningController(
         PredictionEnginePool<MLModel2.ModelInput, MLModel2.ModelOutput> predictionEnginePool,
-        IMLModelOutput modelOutputService) // Injete o serviço no construtor
+        IMLModelOutput modelOutputService) 
     {
         _predictionEnginePool = predictionEnginePool;
-        _modelOutputService = modelOutputService; // Atribua o serviço à variável local
+        _modelOutputService = modelOutputService; 
     }
 
     [HttpPost("predict")]
