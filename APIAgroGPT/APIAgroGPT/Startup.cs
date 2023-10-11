@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.ML;
 using System.Text;
+using APIAgroGPT.Controllers;
 
 namespace APIAgroGPT
 {
@@ -48,6 +49,9 @@ namespace APIAgroGPT
 
             services.AddScoped<IAlunoService, AlunoService>();
             services.AddScoped<IAuthenticate, AuthenticateService>();
+            services.AddScoped<MetricsController>();
+            services.AddScoped<DataSetController>();
+            services.AddScoped<Microsoft.ML.MLContext>();
 
             // services.AddScoped<IMLModelOutput, MLModelOutput>();
 
@@ -102,6 +106,8 @@ namespace APIAgroGPT
 
         public void Configure(WebApplication app, IWebHostEnvironment enviroment)
         {
+            app.UseRouting();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -115,9 +121,11 @@ namespace APIAgroGPT
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.MapControllers();
-            app.UseAuthentication();
-            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
