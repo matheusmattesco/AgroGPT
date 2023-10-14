@@ -21,8 +21,10 @@ namespace APIAgroGPT.Controllers
             {
                 var records = csv.GetRecords<ModelInput>().ToList();
 
-                var groupedData = records.GroupBy(record => record.label)
-                    .Select(group =>
+                var groupedData = new CropRecommendationOutput(); // Inicializa com valores padrão
+                foreach (var group in records.GroupBy(record => record.label))
+                {
+                    if (group.Key == selectedLabel)
                     {
                         var averageN = group.Average(record => record.N);
                         var averageP = group.Average(record => record.P);
@@ -45,7 +47,7 @@ namespace APIAgroGPT.Controllers
                         var maxpH = group.Max(record => record.ph);
                         var minRainfall = group.Min(record => record.rainfall);
                         var maxRainfall = group.Max(record => record.rainfall);
-                        var result = new CropRecommendationOutput
+                        groupedData = new CropRecommendationOutput
                         {
                             Label = group.Key,
                             AverageN = averageN,
@@ -70,9 +72,20 @@ namespace APIAgroGPT.Controllers
                             MinRainfall = minRainfall,
                             MaxRainfall = maxRainfall
                         };
-                        return result;
-                    }).FirstOrDefault();
-                return groupedData;
+                        break; // Sai do loop quando encontrar o item correspondente
+                    }
+                }
+
+                if (groupedData.Label == null)
+                {
+                    // Trate o caso em que não há correspondência para o selectedLabel
+                    return NotFound();
+                }
+                else
+                {
+                    return groupedData;
+                }
+
             }
         }
 
