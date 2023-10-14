@@ -6,6 +6,9 @@ import Alunos from './pages/Alunos';
 import NovoAluno from "./pages/NovoAluno";
 import SoilPrediction from "./pages/soilPrediction";
 import Inicio from "./pages/PagInicial";
+import GerarPredicao from "./pages/GerarPredicao";
+import ConsultaDataset from "./pages/ConsultaDataset";
+import ConsultaAlgoritmo from "./pages/ConsultaAlgoritmo";
 
 export default function WebRoute() {
     return (
@@ -17,6 +20,10 @@ export default function WebRoute() {
                 <Route path="/soil-prediction" element={<SoilPrediction />} />
                 <Route path="/" element={<Inicio />} />
                 <Route path="/inicio" element={<Predicao />} />
+                <Route path="/gerar-predicao" element={<GerarPredicao />} />
+                <Route path="/consulta-dataset" element={<ConsultaDataset />} />
+                <Route path="/consulta-algoritmo" element={<ConsultaAlgoritmo />} />
+
 
             </Routes>
         </BrowserRouter>
