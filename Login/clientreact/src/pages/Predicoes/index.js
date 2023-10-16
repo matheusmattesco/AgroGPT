@@ -7,13 +7,24 @@ import { FiXCircle, FiEdit, FiUserX , FiDownload} from 'react-icons/fi';
 import api from "../../services/api";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import logoCadastro from "../../assets/Icone ChatGPT.png";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 export default function Alunos() {
     const [modalIncluir, setModalIncluir] = useState(false);
     const [nome, setNome] = useState('');
     const [alunos, setAlunos] = useState([]);
     const [predicao, setPredicao] = useState([]);
+
+    const navigate = useNavigate();
+
+    const ConsultaAlgoritmo = () => {
+      navigate('/consulta-algoritmo');
+    };
+  
+    const ConsultaDataset = () => {
+      navigate('/consulta-dataset');
+  
+    };
 
     //////////////////////////////////////////////////////////////////////////////////
 
@@ -150,6 +161,8 @@ export default function Alunos() {
                 <img src={logoCadastro} alt="Cadastro" />
                 <span>Bem-vindo, <strong>{email}</strong>!</span>
                 <Link className="button" onClick={() => abriFecharModalIncluir()}>Nova Predição</Link>
+                <Button className="button" onClick={ConsultaDataset}>Dataset</Button>
+                <Button className="button" onClick={ConsultaAlgoritmo}>Algoritmo</Button>
                 <button onClick={logout} type="button">
                     <FiXCircle size={35} color="#17202a" />
                 </button>
@@ -173,6 +186,8 @@ export default function Alunos() {
                         <b>Chuva: {predicao.rainfall}</b> <br /> <br />
                         <b>Umidade: {predicao.humidity}</b> <br /> <br />
                         <b>Resultado: </b>{predicao.predictedLabel} <br /> <br />
+                        <b>Autor: </b>{predicao.autor} <br /> <br />
+                        <b>Nome: </b>{predicao.nome} <br /> <br />
                         <button type="button" onClick={() => handleExcluirPredicao(predicao.id)}>
                             <FiUserX size="25" color="#17202a" />
                         </button>

@@ -11,6 +11,11 @@ function Inicio() {
     navigate('/login');
   };
 
+  const Cadastro = () => {
+    navigate('/cadastro');
+
+  };
+
   return (
       <div className="container-flex">
         <div className="div-flex-1">
@@ -22,7 +27,7 @@ function Inicio() {
           <div className="Login">
             <h1>Get started</h1>
             <button onClick={Login}>Log in</button>
-            <button>Sign up</button>
+            <button onClick={Cadastro}>Sign up</button>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ import Inicio from "./pages/PagInicial";
 import GerarPredicao from "./pages/GerarPredicao";
 import ConsultaDataset from "./pages/ConsultaDataset";
 import ConsultaAlgoritmo from "./pages/ConsultaAlgoritmo";
+import Cadastro from "./pages/Cadastro";
 
 export default function WebRoute() {
     return (
@@ -23,8 +24,7 @@ export default function WebRoute() {
                 <Route path="/gerar-predicao" element={<GerarPredicao />} />
                 <Route path="/consulta-dataset" element={<ConsultaDataset />} />
                 <Route path="/consulta-algoritmo" element={<ConsultaAlgoritmo />} />
-
-
+                <Route path="/cadastro" element={<Cadastro />} />
             </Routes>
         </BrowserRouter>
     );
