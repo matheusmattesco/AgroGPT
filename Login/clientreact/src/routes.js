@@ -10,6 +10,7 @@ import GerarPredicao from "./pages/GerarPredicao";
 import ConsultaDataset from "./pages/ConsultaDataset";
 import ConsultaAlgoritmo from "./pages/ConsultaAlgoritmo";
 import Cadastro from "./pages/Cadastro";
+import GerarPredicaoTeste from "./pages/TelaPredicao";
 
 export default function WebRoute() {
     return (
@@ -25,6 +26,7 @@ export default function WebRoute() {
                 <Route path="/consulta-dataset" element={<ConsultaDataset />} />
                 <Route path="/consulta-algoritmo" element={<ConsultaAlgoritmo />} />
                 <Route path="/cadastro" element={<Cadastro />} />
+                <Route path="/Tela-Predicao" element={<GerarPredicaoTeste />} />
             </Routes>
         </BrowserRouter>
     );

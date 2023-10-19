@@ -10,9 +10,7 @@ import logoCadastro from "../../assets/Icone ChatGPT.png";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 export default function Alunos() {
-    const [modalIncluir, setModalIncluir] = useState(false);
-    const [nome, setNome] = useState('');
-    const [alunos, setAlunos] = useState([]);
+    const [modalIncluir, setModalIncluir] = useState(false)
     const [predicao, setPredicao] = useState([]);
 
     const navigate = useNavigate();
@@ -301,5 +299,4 @@ export default function Alunos() {
 
         </div>
     )
-    //<button className='btn btn-primary' onClick={() => pedidoPost()}>Incluir</button>
 }

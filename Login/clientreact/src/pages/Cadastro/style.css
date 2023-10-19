@@ -1,5 +1,5 @@
 
-.login-container {
+.cadastro-container {
     width: 100%;
     margin: 0 auto;
 
@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: space-evenly;
 
-    background-image: url('../../assets/plantacaorobo.jpg');
+    background-image: url('../../assets/milho-pretoebranco.jpg');
     background-size: cover; 
     background-repeat: no-repeat; 
     background-position: center center;
@@ -18,7 +18,7 @@
     backdrop-filter: blur(10px);
 }
 
-.login-container::before {
+.cadastro-container::before {
     content: "";
     background: rgba(0, 0, 0, 0.6); 
     position: absolute;
@@ -30,7 +30,7 @@
     z-index: 1; 
 }
 
-.login-container section.form{
+.cadastro-container section.form{
     width: 100%;
     max-width: 500px;
     margin-right: 30px;
@@ -42,7 +42,7 @@
 }
 
 
-.login-container section.form img{
+.cadastro-container section.form img{
     width: 45%;
     margin-left: auto;
     margin-right: auto;
@@ -54,7 +54,7 @@
     width: 60%;
     padding-bottom: 4rem;
 }
-.button-login {
+.button-cadastro {
     color: white;
     background-color: #3C46ff;
     margin-top: 2rem;
@@ -66,33 +66,16 @@
     transition: transform 0.3s;
 }
 
-.button-login:hover {
+.button-cadastro:hover {
     background-color: #4e56f1;
     transform: scale(1.1);
 }
 
-.input-login {
+.input-cadastro {
     font-size: 1rem;
-    max-height: 2rem;
-    transition: transform 0.3s;   
+    max-height: 2rem; 
 }
 
-.input-login2 {
-    font-size: 1rem;
-    max-height: 2rem;
-    transition: transform 0.3s; 
-    max-width: 24rem; 
-    border: unset; 
-}
-
-
-.input-login:hover{
-    transform: scale(1.1);
-}
-
-.input-login2:hover{
-    transform: scale(1.1);
-}
 
 .icon {
     font-size: 25px;

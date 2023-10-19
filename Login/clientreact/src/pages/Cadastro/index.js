@@ -9,21 +9,11 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Cadastro() {
     const [email, setEmail] = useState('');
+    const [nome, setNome] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-    const [eyeIsClosed, setEyeState] = useState(false);
     const inputRef = useRef(null);
-
-    const toggleShow = () => {
-        if (inputRef.current.type === "password") {
-            setEyeState(true)
-            inputRef.current.type = "text";
-        } else {
-            setEyeState(false)
-            inputRef.current.type = "password";
-        }
-    };
 
     const navigate = useNavigate();
 
@@ -37,6 +27,7 @@ export default function Cadastro() {
 
         const data = {
             email,
+            nome,
             password,
             confirmPassword
         };
@@ -57,36 +48,39 @@ export default function Cadastro() {
 
     return (
       <div className="background">
-        <div className="login-container">
+        <div className="cadastro-container">
             <section className="form">
-                <img src={logoImage} alt="Login" id="img1" />
+                <img src={logoImage} alt="cadastro" id="img1" />
                 <form onSubmit={handleSignUp}>
                     <input
-                        className="input-login"
+                            className="input-cadastro"
+                            placeholder="Nome"
+                            value={nome}
+                            onChange={e => setNome(e.target.value)}
+                        />
+                    <input
+                        className="input-cadastro"
                         placeholder="Email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                     />
                     <input 
                         ref={inputRef}
-                        className="input-login2"
+                        className="input-cadastro"
                         type="password"
                         placeholder="Password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />
                     <input 
-                        className="input-login2"
+                        className="input-cadastro"
                         type="password"
                         placeholder="Confirm Password"
                         value={confirmPassword}
                         onChange={e => setConfirmPassword(e.target.value)}
                     />
-                    <span className="icon" onClick={toggleShow}>
-                        {eyeIsClosed ? <VscEyeClosed /> : <VscEye />}
-                    </span>
-                    <button className="button-login" type="submit">
-                        Sign Up
+                    <button className="button-cadastro" type="submit">
+                        Cadastro
                     </button>
                     {error && <p className="error-message">{error}</p>}
                 </form>

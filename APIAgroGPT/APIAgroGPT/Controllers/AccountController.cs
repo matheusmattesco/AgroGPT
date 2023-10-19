@@ -35,7 +35,7 @@ namespace APIAgroGPT.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _authentication.RegisterUser(model.Email, model.Password);
+            var result = await _authentication.RegisterUser(model.Email, model.Nome, model.Password);
 
             if (result)
             {
