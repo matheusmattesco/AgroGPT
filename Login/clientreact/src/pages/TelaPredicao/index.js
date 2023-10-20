@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../Components/header';
+import Header from '../../Components/Header/header';
 import './style.css';
 import M from 'materialize-css';
 

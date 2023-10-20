@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Header from '../../Components/header';
+import Header from '../../Components/Header/header';
 import "./style.css";
+import M from 'materialize-css';
 
 const ConsultaDataset = () => {
     const [selectedLabel, setSelectedLabel] = useState('rice'); // Valor padrão
@@ -22,8 +23,16 @@ const ConsultaDataset = () => {
         "banana", "mango", "grapes", "watermelon", "muskmelon",
         "apple", "orange", "papaya", "coconut", "cotton",
         "jute", "coffee"
-      ];
+    ];
 
+    useEffect(() => {
+        const initializeSelect = () => {
+            const elems = document.querySelectorAll('select');
+            window.M.FormSelect.init(elems, {});
+        };
+
+        initializeSelect();
+    }, []);
       
 
     useEffect(() => {
@@ -54,13 +63,20 @@ const ConsultaDataset = () => {
                 <form onSubmit={handleSubmit}>
                     <label>
                     Selecione a cultura desejada:
-                    <select value={selectedLabel} onChange={handleInputChange}>
-                        <option value="">Selecione...</option>
-                        {Opcoes.map((item, index) => (
-                        <option key={index} value={item}>{item}</option>
-                        ))}
+                    <div className='input-field col s12'>
+                    <select 
+                        value={selectedLabel} 
+                        onChange={handleInputChange}
+                        className="custom-select">
+                            
+                            <option value="" disabled selected>Selecione...</option>
+                            {Opcoes.map((item, index) => (
+                                <option key={index} value={item}>{item}</option>
+                            ))}
                     </select>
+                    </div>
                     </label>
+                    
                 </form>
             </div>
                 {data ? (

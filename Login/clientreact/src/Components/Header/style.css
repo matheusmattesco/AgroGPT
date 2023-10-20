@@ -1,0 +1,45 @@
+.header-padrao {
+    padding: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-padrao li {
+  margin-right: 20px;
+}
+
+
+.header-padrao div {
+    display: flex;
+    align-items: center;
+    padding-right: 3rem;
+    
+  }
+
+.header-padrao img {
+    width: 10rem;
+    padding: 1rem;
+    margin-right: 20px;
+    margin-left: 5rem;
+}
+
+.header-padrao ul {
+    display: flex;
+    list-style-type: none;
+  }
+  
+  .header-padrao li {
+    margin-right: 3rem;
+  }
+
+  .header-padrao a {
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .header-padrao a:hover{
+    color: green;
+    transition: font-size 0.3s;
+  }

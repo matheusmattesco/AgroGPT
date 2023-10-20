@@ -86,14 +86,6 @@
 }
 
 
-.input-login:hover{
-    transform: scale(1.1);
-}
-
-.input-login2:hover{
-    transform: scale(1.1);
-}
-
 .icon {
     font-size: 25px;
     color: white;

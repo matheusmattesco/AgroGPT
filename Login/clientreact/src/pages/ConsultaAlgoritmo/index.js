@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Header from '../../Components/header';
+import Header from '../../Components/Header/header';
 import "./style.css";
 
 const ConsultaAlgoritmo = () => {

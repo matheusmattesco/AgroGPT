@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MachineLearningController">
+    <Position X="2.25" Y="1.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAEgAAAAAAAAAEAAAAg=</HashCode>
+      <FileName>Controllers\MachineLearningController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="MLModel2">
-    <Position X="5.25" Y="2.25" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Nested Types" Collapsed="false" />
-    </Compartments>
+    <Position X="7.25" Y="1.75" Width="4.25" />
     <NestedTypes>
-      <Class Name="MLModel2.ModelInput">
+      <Class Name="MLModel2.ModelInput" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>Models\MachineLearning.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="MLModel2.ModelOutput">
+      <Class Name="MLModel2.ModelOutput" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>Models\MachineLearning.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -22,97 +26,76 @@
       <FileName>Models\MachineLearning.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MachineLearningController">
-    <Position X="2.5" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAEgAAAAAAAAAEAAAAg=</HashCode>
-      <FileName>Controllers\MachineLearningController.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="APIAgroGPT.ViewModels.LoginModel" Collapsed="true">
-    <Position X="7.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
-      <FileName>ViewModels\LoginModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="APIAgroGPT.ViewModels.RegisterModel" Collapsed="true">
-    <Position X="7.75" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
-      <FileName>ViewModels\RegisterModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="APIAgroGPT.ViewModels.UserToken" Collapsed="true">
-    <Position X="10.5" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
-      <FileName>ViewModels\UserToken.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="APIAgroGPT.Models.MLModelOutput" Collapsed="true">
-    <Position X="7.5" Y="2.25" Width="1.5" />
+  <Class Name="APIAgroGPT.Models.MLModelOutput">
+    <Position X="13.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAFAgAAAgAACADAAAAAAAAAAAEAABAAJBEAAA=</HashCode>
       <FileName>Models\IA.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="APIAgroGPT.Models.Aluno">
-    <Position X="4" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>Models\Aluno.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="APIAgroGPT.Controllers.AccountController">
-    <Position X="0.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAEQAQAAAAA=</HashCode>
-      <FileName>Controllers\AccountController.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="APIAgroGPT.Context.AppDbContext" Collapsed="true">
-    <Position X="6" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAABAAABAAA=</HashCode>
-      <FileName>Context\AppDbContext.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="APIAgroGPT.Startup">
-    <Position X="1.5" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
-      <FileName>Startup.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="APIAgroGPT.Services.ModelService">
-    <Position X="14.5" Y="1.75" Width="1.5" />
+    <Position X="4.25" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAABQAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Services\MLModelInputService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="APIAgroGPT.Services.IAlunoService">
-    <Position X="13.5" Y="4.75" Width="1.5" />
+  <Class Name="APIAgroGPT.Controllers.MetricsController">
+    <Position X="22" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAQAABAAE=</HashCode>
-      <FileName>Services\IAlunoService.cs</FileName>
+      <HashCode>AAQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Controllers\MetricsController.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="APIAgroGPT.Services.IAuthenticate">
-    <Position X="7" Y="3.5" Width="1.5" />
+  </Class>
+  <Class Name="APIAgroGPT.Controllers.MetricsResult">
+    <Position X="20" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Services\IAuthenticate.cs</FileName>
+      <HashCode>AAAEAAAAAAAAAAAAAAAIAAAABgACAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\MetricsController.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="APIAgroGPT.Services.IMLModelOutput">
-    <Position X="9.25" Y="3" Width="4.25" />
+  </Class>
+  <Class Name="APIAgroGPT.Controllers.InputModel">
+    <Position X="18" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAIAAAAACAAAAAAA=</HashCode>
-      <FileName>Services\IMLModelOutput.cs</FileName>
+      <HashCode>AAAACAAAAAAAABIAAAAAAAAAAAAAAEAAAAQAAJBAAAA=</HashCode>
+      <FileName>Controllers\MetricsController.cs</FileName>
     </TypeIdentifier>
-  </Interface>
+  </Class>
+  <Class Name="APIAgroGPT.Controllers.DataSetController">
+    <Position X="27.75" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Class Name="APIAgroGPT.Controllers.DataSetController.ModelInput" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\DatasetController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\DatasetController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Controllers.CropRecommendationOutput">
+    <Position X="26.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAiAQQEAQAAAMBAAAEgIAAAAAgEAAgCAABIAAAgAQ=</HashCode>
+      <FileName>Controllers\DatasetController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Context.AppDbContext">
+    <Position X="15.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAABAAABAAA=</HashCode>
+      <FileName>Context\AppDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APIAgroGPT.Startup">
+    <Position X="10.5" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

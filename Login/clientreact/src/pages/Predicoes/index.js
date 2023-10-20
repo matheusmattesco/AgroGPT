@@ -1,15 +1,48 @@
-
-
+import Header from "../../Components/Header/header";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
 import { FiXCircle, FiEdit, FiUserX , FiDownload} from 'react-icons/fi';
 import api from "../../services/api";
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import logoCadastro from "../../assets/Icone ChatGPT.png";
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+
 
 export default function Alunos() {
+    const styles = StyleSheet.create({
+        page: {
+          flexDirection: 'row',
+          backgroundColor: '#E4E4E4'
+        },
+        section: {
+          margin: 10,
+          padding: 10,
+          flexGrow: 1
+        }
+      });
+      
+      const handleDownloadSelectedPDF = (selectedPredicao) => {
+        const MyDocument = (
+          <Document>
+            <Page size="A4" style={styles.page}>
+              <View style={styles.section}>
+                <Text>Texto Aleatório: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
+              </View>
+            </Page>
+          </Document>
+        );
+      
+        const blob = new Blob([MyDocument], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `predicao_${selectedPredicao.id}.pdf`; // nomeie o arquivo PDF conforme necessário
+        link.click();
+      };
+    
+
+
+
     const [modalIncluir, setModalIncluir] = useState(false)
     const [predicao, setPredicao] = useState([]);
 
@@ -154,16 +187,12 @@ export default function Alunos() {
     }
 
     return (
-        <div className="aluno-container">
+        <div>
+            <Header/>
+        <div className="aluno-container">     
             <header>
-                <img src={logoCadastro} alt="Cadastro" />
                 <span>Bem-vindo, <strong>{email}</strong>!</span>
-                <Link className="button" onClick={() => abriFecharModalIncluir()}>Nova Predição</Link>
-                <Button className="button" onClick={ConsultaDataset}>Dataset</Button>
-                <Button className="button" onClick={ConsultaAlgoritmo}>Algoritmo</Button>
-                <button onClick={logout} type="button">
-                    <FiXCircle size={35} color="#17202a" />
-                </button>
+
             </header>
             <form>
                 <input type="text" placeholder="Id" />
@@ -189,114 +218,14 @@ export default function Alunos() {
                         <button type="button" onClick={() => handleExcluirPredicao(predicao.id)}>
                             <FiUserX size="25" color="#17202a" />
                         </button>
-                        <button type="button">
+                        <button type="button" onClick={() => handleDownloadSelectedPDF(predicao)}>
                             <FiDownload size="25" color="#17202a" />
                         </button>
                     </li>
                 ))}
             </ul>
 
-            <Modal isOpen={modalIncluir}>
-        <ModalHeader>Adicionar Predicao</ModalHeader>
-        <ModalBody>
-        <div className="form-group">
-            <h1>Insira os dados do solo:</h1>
-
-            <div className='form-control'>
-                <label htmlFor="nValue">Nitrogênio:</label>
-                <input
-                    type="number"
-                    id="nValue"
-                    step="0.1"
-                    placeholder="N"
-                    value={nValue}
-                    onChange={(e) => setNValue(parseFloat(e.target.value))}
-                />
-            </div>
-            <div className='form-control'>
-                <label htmlFor="pValue">Fosforo:</label>
-                <input
-                    type="number"
-                    id="pValue"
-                    step="0.1"
-                    placeholder="P"
-                    value={pValue}
-                    onChange={(e) => setPValue(parseFloat(e.target.value))}
-                />
-            </div>
-            <div className='form-control'>
-                <label htmlFor="kValue">Potássio:</label>
-                <input
-                    type="number"
-                    id="kValue"
-                    step="0.1"
-                    placeholder="K"
-                    value={kValue}
-                    onChange={(e) => setKValue(parseFloat(e.target.value))}
-                />
-            </div>
-            <div className='form-control'>
-                <label htmlFor="temperature">Temperature:</label>
-                <input
-                    type="number"
-                    id="temperature"
-                    step="0.1"
-                    placeholder="Temperature"
-                    value={temperature}
-                    onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                />
-            </div>
-            <div className='form-control'>
-                <label htmlFor="humidity">Umidade:</label>
-                <input
-                    type="number"
-                    id="humidity"
-                    step="0.1"
-                    placeholder="Humidity"
-                    value={humidity}
-                    onChange={(e) => setHumidity(parseFloat(e.target.value))}
-                />
-            </div>
-            <div className='form-control'>
-                <label htmlFor="phValue">Ph:</label>
-                <input
-                    type="number"
-                    id="phValue"
-                    step="0.1"
-                    placeholder="Ph"
-                    value={phValue}
-                    onChange={(e) => setPhValue(parseFloat(e.target.value))}
-                />
-            </div>
-            <div className='form-control'>
-                <label htmlFor="rainfallValue">Quantidade de Chuva:</label>
-                <input
-                    type="number"
-                    id="rainfallValue"
-                    step="0.1"
-                    placeholder="Rainfall"
-                    value={rainfallValue}
-                    onChange={(e) => setRainfallValue(parseFloat(e.target.value))}
-                    />
-                </div>
-            </div>
-        </ModalBody>
-
-        <ModalFooter>
-        <button id="predictBtn" onClick={handlePredict}> Realizar Predição </button>
-        <button className='btn btn-danger' onClick={() => {
-            abriFecharModalIncluir();
-            window.location.reload(); // Isso recarregará a página
-            }}>Fechar</button>
-          <div id="result" className="result-container">
-                    A Melhor cultura para o seu solo é {predictedLabel} e com a porcentagem de sucesso de {maxNumber}%
-                </div>
-                <div id="result2" className="result-container2">
-                    {result2}
-                </div>
-        </ModalFooter>
-      </Modal>
-
         </div>
+    </div>
     )
 }
