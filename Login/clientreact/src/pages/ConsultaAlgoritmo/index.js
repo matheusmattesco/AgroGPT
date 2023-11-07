@@ -5,34 +5,51 @@ import "./style.css";
 
 const ConsultaAlgoritmo = () => {
     const [metrics, setMetrics] = useState(null);
+    const [treeValue, setTreeValue] = useState(17);
+    const [leafValue, setLeafValue] = useState(4);
+    const [resourceValue, setResourceValue] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const fetchMetrics = async () => {
-            try {
-                const response = await axios.get('https://localhost:7181/api/Metrics');
-                setMetrics(response.data);
-            } catch (error) {
-                console.error('Erro ao buscar os dados:', error);
-            }
-        };
-
         fetchMetrics();
     }, []);
 
-    const formatConfusionMatrix = () => {
-        if (metrics && metrics.confusionMatrix) {
-            const rows = metrics.confusionMatrix.split('||');
-            const matrixRows = rows.map((row, index) => {
-                const columns = row.split('|');
-                return (
-                    <tr key={index}>
-                        {columns.map((column, columnIndex) => (
-                            <td key={columnIndex}>{column}</td>
-                        ))}
-                    </tr>
-                );
+    const fetchMetrics = async () => {
+        try {
+            const response = await axios.get('https://localhost:7181/api/Metrics');
+            setMetrics(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar os dados:', error);
+        }
+    };
+
+    const handleTreeChange = (e) => {
+        setTreeValue(e.target.value);
+    };
+
+    const handleLeafChange = (e) => {
+        setLeafValue(e.target.value);
+    };
+
+    const handleResourceChange = (e) => {
+        setResourceValue(e.target.value);
+    };
+
+    const handleUpdate = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get('https://localhost:7181/api/Metrics', {
+                params: {
+                    numberOfTrees: treeValue,
+                    numberOfLeaves: leafValue,
+                    featureFraction: resourceValue
+                }
             });
-            return matrixRows;
+            setMetrics(response.data);
+        } catch (error) {
+            console.error('Erro ao atualizar os dados:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -93,28 +110,56 @@ const formatConfusionMatrix2 = () => {
                 <p>Essas métricas são fundamentais para avaliar a performance e a precisão de modelos de machine learning em problemas de classificação e são usadas para determinar a eficácia do modelo em relação aos dados de treinamento e de teste.</p>
                 <h3>Detalhes do Algoritmo:</h3>
                 <p>O algoritmo foi realizado com a biblioteca de machine learning da Microsoft e utiliza o algoritmo mlContext.BinaryClassification.Trainers.FastForestnew FastForestBinaryTrainer.Options NumberOfTrees = 17, NumberOfLeaves = 4  na versão mais atual.</p>
+                <br />
+                <h5>A baixo você pode mudar essas configurações e verificar como isso impacta no algoritmo: </h5>
+                <div>
+                <div className="input-range" >
+                <b>Número de Árvores:</b><br />
+                <input type="range" min="1" max="100" value={treeValue} onChange={handleTreeChange} /> <br />
+                <span>{treeValue}</span><br />
+                    </div>
+
+                    <div className="input-range" >
+                        <b>Números de Folhas: </b> <br />
+                        <input type="range" min="2" max="100" value={leafValue} onChange={handleLeafChange} /> <br />
+                        <span>{leafValue}</span><br />
+                    </div>
+
+                    <div className="input-range" >
+                        <b>Fração de Recursos: </b> <br />
+                        <input type="range" min="0" max="1" step="0.1" value={resourceValue} onChange={handleResourceChange} /> <br />
+                        <span>{resourceValue}</span><br />
+                    </div>
+
+                    <button onClick={handleUpdate}>Atualizar</button>
+                    {loading && <p>Carregando dados da API Metrics...</p>}
+                </div>
+
+
             </div>
+            <div>
             <h2>Consulta à API Metrics e Exibição de Valores</h2>
             {metrics ? (
-                <div>
-                    <h3>Valores Retornados da API Metrics:</h3>
-                    <p>Accuracy: {metrics.accuracy}</p>
-                    <p>Log Loss: {metrics.logLoss}</p>
-                    <p>Log Loss Reduction: {metrics.logLossReduction}</p>
-                    <p>Top K Accuracy: {metrics.topKAccuracy}</p>
-                    <p>Standard Deviation: {metrics.standardDeviation}</p>
-                    <div>
-                        <h3>Confusion Matrix:</h3>
-                        <table style={{ width: '50%', margin: '0 auto', border: '1px solid #ddd', borderCollapse: 'collapse' }}>
-                            <tbody>
-                                {formatConfusionMatrix2()}
-                            </tbody>
-                        </table>
+                <div className="metrics-explanation">
+                        <h3>Valores Retornados da API Metrics:</h3>
+                        <p>Accuracy: {metrics.accuracy}</p>
+                        <p>Log Loss: {metrics.logLoss}</p>
+                        <p>Log Loss Reduction: {metrics.logLossReduction}</p>
+                        <p>Top K Accuracy: {metrics.topKAccuracy}</p>
+                        <p>Standard Deviation: {metrics.standardDeviation}</p>
+                        <div>
+                            <h3>Confusion Matrix:</h3>
+                            <table style={{ width: '50%', margin: '0 auto', border: '1px solid #ddd', borderCollapse: 'collapse' }}>
+                                <tbody>
+                                    {formatConfusionMatrix2()}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            ) : (
-                <p>Carregando dados da API Metrics...</p>
-            )}
+                ) : (
+                    <p>Carregando dados da API Metrics...</p>
+                )}
+            </div>
         </div>
     );
 };

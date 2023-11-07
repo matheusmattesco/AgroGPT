@@ -1,5 +1,4 @@
 .container-predicao{
-    background-color: antiquewhite;
     min-height: 700px;
     max-width: 80%;
     margin: 0 auto; 
@@ -7,4 +6,5 @@
 
 div .modal {
     width: 30%;
+    padding: 5rem;
 }

@@ -6,6 +6,7 @@ import { FiXCircle, FiEdit, FiUserX , FiDownload} from 'react-icons/fi';
 import api from "../../services/api";
 import logoCadastro from "../../assets/Icone ChatGPT.png";
 import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import GerarPDF from "../../Components/PDF/pdf";
 
 
 export default function Alunos() {
@@ -189,6 +190,8 @@ export default function Alunos() {
     return (
         <div>
             <Header/>
+
+            
         <div className="aluno-container">     
             <header>
                 <span>Bem-vindo, <strong>{email}</strong>!</span>
@@ -202,10 +205,14 @@ export default function Alunos() {
             </form>
             <h1>Histórico de Predições</h1>
 
+            
+
             <ul>
                 {predicao.map(predicao => (
                     <li key={predicao.id}>
-                        <b>Id: {predicao.id}</b> <br /> <br />
+                        <h4>Id: {predicao.id}</h4> <br /> <br />
+                        <b>Autor: </b>{predicao.autor} <br /> <br />
+                        <b>Nome: </b>{predicao.nome} <br /> <br />
                         <b>Nitrato: </b>{predicao.n} <br /> <br />
                         <b>Fósforo: {predicao.p}</b> <br /> <br />
                         <b>Potásio: {predicao.k}</b> <br /> <br />
@@ -213,12 +220,10 @@ export default function Alunos() {
                         <b>Chuva: {predicao.rainfall}</b> <br /> <br />
                         <b>Umidade: {predicao.humidity}</b> <br /> <br />
                         <b>Resultado: </b>{predicao.predictedLabel} <br /> <br />
-                        <b>Autor: </b>{predicao.autor} <br /> <br />
-                        <b>Nome: </b>{predicao.nome} <br /> <br />
                         <button type="button" onClick={() => handleExcluirPredicao(predicao.id)}>
                             <FiUserX size="25" color="#17202a" />
                         </button>
-                        <button type="button" onClick={() => handleDownloadSelectedPDF(predicao)}>
+                        <button type="button" onClick={() => GerarPDF(predicao)}>
                             <FiDownload size="25" color="#17202a" />
                         </button>
                     </li>

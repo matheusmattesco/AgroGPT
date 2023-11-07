@@ -16,3 +16,7 @@ th {
 .first-column {
     width: 30%;
 }
+
+.input-range {
+    width: 200px; /* Defina o comprimento desejado aqui */
+  }

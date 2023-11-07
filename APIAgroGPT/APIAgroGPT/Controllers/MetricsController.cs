@@ -19,15 +19,17 @@ namespace APIAgroGPT.Controllers
         public MetricsController(MLContext context)
         {
             _context = context;
+            //Injeção de dependência
+            
         }
 
         [HttpGet]
-        public async Task<ActionResult<MetricsResult>> GetMetrics()
+        public async Task<ActionResult<MetricsResult>> GetMetrics( int numberOfTrees = 17, int numberOfLeaves = 4, float featureFraction = 1F, double testFraction = 0.2)
         {
             var dataset = _context.Data.LoadFromTextFile<InputModel>(
                 path: "C:\\Users\\a895091\\OneDrive - Atos\\Documentos\\ml.net\\Crop_recommendation.csv", hasHeader: true, separatorChar: ',', allowQuoting: true);
 
-            var TrainAndTestDataset = _context.Data.TrainTestSplit(dataset);
+            var TrainAndTestDataset = _context.Data.TrainTestSplit(dataset, testFraction);
 
             var dataPipeline = _context.Transforms.Concatenate("Features", "N", "P", "K", "temperature", "humidity", "ph", "rainfall")
                 .Append(_context.Transforms.Conversion.MapValueToKey("Label", "label"));
@@ -35,9 +37,15 @@ namespace APIAgroGPT.Controllers
             var trainer = _context.MulticlassClassification.Trainers.OneVersusAll(
                 _context.BinaryClassification.Trainers.FastForest(new FastForestBinaryTrainer.Options()
                 {
-                    NumberOfTrees = 17,
-                    NumberOfLeaves = 4,
-                    FeatureFraction = 1F
+                    //NumberOfTrees = 17,
+                    //NumberOfLeaves = 4,
+                    //FeatureFraction = 1F
+                    
+                    TestFrequency = 1,
+                    Bias = 1,
+                    NumberOfTrees = numberOfTrees,
+                    NumberOfLeaves = numberOfLeaves,
+                    FeatureFraction = featureFraction
                 }),
                 labelColumnName: "Label"
             );
@@ -47,24 +55,29 @@ namespace APIAgroGPT.Controllers
             var model = await Task.Run(() => trainingPipeline.Fit(TrainAndTestDataset.TrainSet));
 
             var metrics = _context.MulticlassClassification.Evaluate(model.Transform(TrainAndTestDataset.TestSet),
-                labelColumnName: "Label");
+                            labelColumnName: "Label");
 
-            var metricsList = new double[] { metrics.MacroAccuracy, metrics.LogLoss, metrics.LogLossReduction, metrics.TopKAccuracy };
+            var metricsList = new double[] { metrics.MacroAccuracy, metrics.LogLoss, metrics.LogLossReduction, metrics.TopKAccuracy, metrics.MicroAccuracy, metrics.TopKPredictionCount};
             var stdDev = CalculateStandardDeviation(metricsList);
 
             var result = new MetricsResult
             {
+                TopKPredictionCount = metrics.TopKPredictionCount,
+                MicroAccuracy = metrics.MicroAccuracy,
                 Accuracy = metrics.MacroAccuracy,
                 LogLoss = metrics.LogLoss,
                 LogLossReduction = metrics.LogLossReduction,
                 TopKAccuracy = metrics.TopKAccuracy,
                 StandardDeviation = stdDev,
-                ConfusionMatrix = metrics.ConfusionMatrix.GetFormattedConfusionTable()
-
+                ConfusionMatrix = metrics.ConfusionMatrix.GetFormattedConfusionTable(),
+                PerClassPrecision = metrics.ConfusionMatrix.PerClassPrecision,
+                PerClassRecall = metrics.ConfusionMatrix.PerClassRecall,
+          
             };
 
             return result;
         }
+
 
         private static double CalculateStandardDeviation(double[] values)
         {
@@ -74,10 +87,16 @@ namespace APIAgroGPT.Controllers
             double stdDev = Math.Sqrt(variance);
             return stdDev;
         }
+
     }
 
+
+
     public class MetricsResult
+
     {
+        public double TopKPredictionCount { get; set; }
+        public  double MicroAccuracy { get; set; }
         public double Accuracy { get; set; }
         public double LogLoss { get; set; }
         public double LogLossReduction { get; set; }
@@ -85,6 +104,10 @@ namespace APIAgroGPT.Controllers
         public double StandardDeviation { get; set; }
 
         public string ConfusionMatrix { get; set; }
+
+        public IReadOnlyList<double> PerClassPrecision { get; set; }
+
+        public IReadOnlyList<double> PerClassRecall { get; set; }
     }
 
     class InputModel
@@ -112,5 +135,8 @@ namespace APIAgroGPT.Controllers
 
         [LoadColumn(7)]
         public string label { get; set; }
-    }
+
+
+
+      }
 }
