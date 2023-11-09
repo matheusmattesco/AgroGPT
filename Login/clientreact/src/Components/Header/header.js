@@ -33,6 +33,10 @@ const Header = () => {
         navigate('/tela-predicao');
     };
 
+    const Historico = () => {
+        navigate('/historico');
+    };
+
     async function logout() {
         try {
             localStorage.clear();
@@ -55,6 +59,7 @@ const Header = () => {
                         <li><a onClick={TelaPredicao}>Nova Classificação</a></li>
                         <li><a onClick={ConsultaDataset}>Consulta Dataset</a></li>
                         <li><a onClick={ConsultaAlgoritmo}>Consulta algoritmo</a></li>
+                        <li><a onClick={Historico}>Histórico</a></li>
                         <li><a onClick={logout}>Sair</a></li>
                     </ul>
                 </div>

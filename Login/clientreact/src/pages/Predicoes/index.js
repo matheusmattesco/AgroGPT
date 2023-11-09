@@ -1,236 +1,118 @@
 import Header from "../../Components/Header/header";
+import Footer from "../../Components/Footer/footer";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
-import { FiXCircle, FiEdit, FiUserX , FiDownload} from 'react-icons/fi';
+import { FiXCircle, FiEdit, FiUserX, FiDownload } from 'react-icons/fi';
 import api from "../../services/api";
 import logoCadastro from "../../assets/Icone ChatGPT.png";
 import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import GerarPDF from "../../Components/PDF/pdf";
+import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
 
 
 export default function Alunos() {
-    const styles = StyleSheet.create({
-        page: {
-          flexDirection: 'row',
-          backgroundColor: '#E4E4E4'
-        },
-        section: {
-          margin: 10,
-          padding: 10,
-          flexGrow: 1
-        }
-      });
-      
-      const handleDownloadSelectedPDF = (selectedPredicao) => {
-        const MyDocument = (
-          <Document>
-            <Page size="A4" style={styles.page}>
-              <View style={styles.section}>
-                <Text>Texto Aleatório: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
-              </View>
-            </Page>
-          </Document>
-        );
-      
-        const blob = new Blob([MyDocument], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `predicao_${selectedPredicao.id}.pdf`; // nomeie o arquivo PDF conforme necessário
-        link.click();
-      };
-    
-
-
-
-    const [modalIncluir, setModalIncluir] = useState(false)
-    const [predicao, setPredicao] = useState([]);
-
-    const navigate = useNavigate();
-
-    const ConsultaAlgoritmo = () => {
-      navigate('/consulta-algoritmo');
-    };
-  
-    const ConsultaDataset = () => {
-      navigate('/consulta-dataset');
-  
-    };
-
-    //////////////////////////////////////////////////////////////////////////////////
-
-    const [temperature, setTemperature] = useState(20);
-    const [humidity, setHumidity] = useState(80);
-    const [nValue, setNValue] = useState(90);
-    const [pValue, setPValue] = useState(42);
-    const [kValue, setKValue] = useState(43);
-    const [phValue, setPhValue] = useState(6);
-    const [rainfallValue, setRainfallValue] = useState(200);
-    const [predictedLabel, setPredictedLabel] = useState('');
-    const [result2, setResult2] = useState('');
-    const [maxNumber, setMaxNumber] = useState(0);
-    const abriFecharModalIncluir = () => {
-        setModalIncluir(!modalIncluir);
-      }
-
-    const handlePredict = async () => {
-        const inputData = {
-            Temperature: temperature,
-            Humidity: humidity,
-            N: nValue,
-            P: pValue,
-            K: kValue,
-            Ph: phValue,
-            Rainfall: rainfallValue,
-            Label: "teste"
-        };
-
-        try {
-            const apiUrl = 'https://localhost:7181';
-            const response = await fetch(apiUrl + '/api/MachineLearning/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Certifique-se de que a origem esteja correta
-                    'Origin': 'http://localhost:3000'
-                },
-                body: JSON.stringify(inputData)
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch. Status: ${response.status}`);
-            }
-
-            const prediction = await response.json();
-            const scores = prediction.score;
-            const maxNumber = Math.max(...scores) * 100;
-
-
-            // Mapeando os rótulos
-            const labels = [
-                "coco", "milho", "grão de bico", "feijão", "feijão bóer",
-                "feijão mensal", "feijão mungo", "blackgram", "lentilha", "romã",
-                "banana", "manga", "uvas", "melancia", "melão",
-                "maçã", "laranja", "mamão", "arroz", "algodão",
-                "juta", "café"
-            ];
-
-            // Mapeando os rótulos para nomes mais amigáveis
-            const labeledScores = scores.map((value, index) => ({
-                nome: labels[index],
-                score: value
-            }));
-
-            const maxScoreIndex = scores.indexOf(Math.max(...scores));
-            const newPredictedLabel = prediction.predictedLabel;
-            setPredictedLabel(newPredictedLabel);
-           // setResult2(JSON.stringify(labeledScores, null, 2));
-            setMaxNumber(maxNumber.toFixed(2));
-        } catch (error) {
-            console.error("Erro na solicitação:", error);
-        }
-    };
-
-    const handleExcluirPredicao = async (id) => {
-        try {
-            const apiUrl = 'https://localhost:7181';
-            const response = await fetch(apiUrl + `/api/MachineLearning/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Origin': 'http://localhost:3000'
-                }
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Failed to delete. Status: ${response.status}`);
-            }
-    
-            // Atualize a lista de previsões após a exclusão
-            const updatedPredicoes = predicao.filter(pred => pred.id !== id);
-            setPredicao(updatedPredicoes);
-        } catch (error) {
-            console.error("Erro na solicitação:", error);
-        }
-    };
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    const email = localStorage.getItem('email');
-    const token = localStorage.getItem('token');
-
-    const history = useNavigate(); // Defina history como uma constante
-
-    const authorization = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-
-    useEffect(() => {
-        api.get('api/MachineLearning', authorization).then(
-            response => {
-                setPredicao(response.data);
-            }
-        );
-    }, []); // Passa um array vazio como segundo argumento para executar apenas uma vez
-
-    async function logout() {
-        try {
-            localStorage.clear();
-            localStorage.setItem('token', '');
-            authorization.headers = undefined; // Defina o cabeçalho como undefined para removê-lo
-            history('/');
-        } catch (error) {
-            alert('Não foi possível fazer o logout' + error);
-        }
-    }
-
     return (
         <div>
-            <Header/>
-
-            
-        <div className="aluno-container">     
-            <header>
-                <span>Bem-vindo, <strong>{email}</strong>!</span>
-
-            </header>
-            <form>
-                <input type="text" placeholder="Id" />
-                <button type="button" className="button">
-                    Filtrar Predição por ID
-                </button>
-            </form>
-            <h1>Histórico de Predições</h1>
-
-            
-
-            <ul>
-                {predicao.map(predicao => (
-                    <li key={predicao.id}>
-                        <h4>Id: {predicao.id}</h4> <br /> <br />
-                        <b>Autor: </b>{predicao.autor} <br /> <br />
-                        <b>Nome: </b>{predicao.nome} <br /> <br />
-                        <b>Nitrato: </b>{predicao.n} <br /> <br />
-                        <b>Fósforo: {predicao.p}</b> <br /> <br />
-                        <b>Potásio: {predicao.k}</b> <br /> <br />
-                        <b>PH {predicao.ph}</b> <br /><br />
-                        <b>Chuva: {predicao.rainfall}</b> <br /> <br />
-                        <b>Umidade: {predicao.humidity}</b> <br /> <br />
-                        <b>Resultado: </b>{predicao.predictedLabel} <br /> <br />
-                        <button type="button" onClick={() => handleExcluirPredicao(predicao.id)}>
-                            <FiUserX size="25" color="#17202a" />
-                        </button>
-                        <button type="button" onClick={() => GerarPDF(predicao)}>
-                            <FiDownload size="25" color="#17202a" />
-                        </button>
-                    </li>
-                ))}
-            </ul>
-
+        <Header/>
+        <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+                <svg
+                    className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]"
+                    aria-hidden="true"
+                >
+                    <defs>
+                        <pattern
+                            id="e813992c-7d03-4cc4-a2bd-151760b470a0"
+                            width={200}
+                            height={200}
+                            x="50%"
+                            y={-1}
+                            patternUnits="userSpaceOnUse"
+                        >
+                            <path d="M100 200V.5M.5 .5H200" fill="none" />
+                        </pattern>
+                    </defs>
+                    <svg x="50%" y={-1} className="overflow-visible fill-gray-50">
+                        <path
+                            d="M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z"
+                            strokeWidth={0}
+                        />
+                    </svg>
+                    <rect width="100%" height="100%" strokeWidth={0} fill="url(#e813992c-7d03-4cc4-a2bd-151760b470a0)" />
+                </svg>
+            </div>
+            <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10">
+                <div className="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+                    <div className="lg:pr-4">
+                        <div className="lg:max-w-lg">
+                            <p className="text-base font-semibold leading-7 text-indigo-600">Deploy faster</p>
+                            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">A better workflow</h1>
+                            <p className="mt-6 text-xl leading-8 text-gray-700">
+                                Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam
+                                eget aliquam. Quisque id at vitae feugiat egestas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
+                    <img
+                        className="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+                        src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+                        alt=""
+                    />
+                </div>
+                <div className="lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+                    <div className="lg:pr-4">
+                        <div className="max-w-xl text-base leading-7 text-gray-700 lg:max-w-lg">
+                            <p>
+                                Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet
+                                vitae sed turpis id. Id dolor praesent donec est. Odio penatibus risus viverra tellus varius sit neque
+                                erat velit. Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris
+                                semper sed amet vitae sed turpis id.
+                            </p>
+                            <ul role="list" className="mt-8 space-y-8 text-gray-600">
+                                <li className="flex gap-x-3">
+                                    <CloudArrowUpIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" />
+                                    <span>
+                                        <strong className="font-semibold text-gray-900">Push to deploy.</strong> Lorem ipsum, dolor sit amet
+                                        consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate
+                                        blanditiis ratione.
+                                    </span>
+                                </li>
+                                <li className="flex gap-x-3">
+                                    <LockClosedIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" />
+                                    <span>
+                                        <strong className="font-semibold text-gray-900">SSL certificates.</strong> Anim aute id magna aliqua
+                                        ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.
+                                    </span>
+                                </li>
+                                <li className="flex gap-x-3">
+                                    <ServerIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" />
+                                    <span>
+                                        <strong className="font-semibold text-gray-900">Database backups.</strong> Ac tincidunt sapien
+                                        vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+                                    </span>
+                                </li>
+                            </ul>
+                            <p className="mt-8">
+                                Et vitae blandit facilisi magna lacus commodo. Vitae sapien duis odio id et. Id blandit molestie auctor
+                                fermentum dignissim. Lacus diam tincidunt ac cursus in vel. Mauris varius vulputate et ultrices hac
+                                adipiscing egestas. Iaculis convallis ac tempor et ut. Ac lorem vel integer orci.
+                            </p>
+                            <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">No server? No problem.</h2>
+                            <p className="mt-6">
+                                Id orci tellus laoreet id ac. Dolor, aenean leo, ac etiam consequat in. Convallis arcu ipsum urna nibh.
+                                Pharetra, euismod vitae interdum mauris enim, consequat vulputate nibh. Maecenas pellentesque id sed
+                                tellus mauris, ultrices mauris. Tincidunt enim cursus ridiculus mi. Pellentesque nam sed nullam sed diam
+                                turpis ipsum eu a sed convallis diam.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <Footer/>
     </div>
     )
 }

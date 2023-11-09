@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../Components/Header/header';
+import Footer from '../../Components/Footer/footer';
 import './style.css';
 import M from 'materialize-css';
 import GerarPDF from '../../Components/PDF/pdf';
@@ -291,6 +292,7 @@ const GerarPredicaoTeste = () => {
 
 
           </div>
+          <Footer/>
       </div>
     );
 };
