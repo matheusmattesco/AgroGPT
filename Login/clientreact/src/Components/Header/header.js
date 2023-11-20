@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+//import './style.css';
 import logo from "../../assets/Icone ChatGPT.png";
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -49,23 +49,43 @@ const Header = () => {
     }
 
     return (
-        <header>
-            <div className='header-padrao'>
-                <img src={logo} alt="Logo" />
-                <div>
-                    <ul>
-                        <li><a onClick={Inicio}>Inicio</a></li>
-                        <li><a onClick={Ajuda}>Ajuda</a></li>
-                        <li><a onClick={TelaPredicao}>Nova Classificação</a></li>
-                        <li><a onClick={ConsultaDataset}>Consulta Dataset</a></li>
-                        <li><a onClick={ConsultaAlgoritmo}>Consulta algoritmo</a></li>
-                        <li><a onClick={Historico}>Histórico</a></li>
-                        <li><a onClick={logout}>Sair</a></li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-    );
+        <header className="fixed top-0 left-0 right-0 z-50 bg-white/90">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-3 lg:px-8 ">
+        <div className="flex lg:flex-1">
+          <a href="#" className="-m-1.5 p-1.5">
+            <img className="h-12 w-auto" src={logo} alt="" />
+          </a>
+        </div>
+        <div className="flex gap-10">
+        <a onClick={Inicio} className="text-sm font-semibold leading-6 text-gray-900 hover:text-green-700 transition-all" role='button'>
+            Inicio
+          </a>
+          <a onClick={TelaPredicao} className="text-sm font-semibold leading-6 text-gray-900 hover:text-green-700 transition-all" role='button'>
+            Classificação
+          </a>
+          <a onClick={ConsultaAlgoritmo} className="text-sm font-semibold leading-6 text-gray-900 hover:text-green-700 transition-all" role='button'>
+            Metricas
+          </a>
+          <a onClick={ConsultaDataset} className="text-sm font-semibold leading-6 text-gray-900 hover:text-green-700 transition-all" role='button'>
+            Dataset
+          </a>
+          <a onClick={Historico} className="text-sm font-semibold leading-6 text-gray-900 hover:text-green-700 transition-all" role='button'>
+            Histórico 
+          </a>
+        </div>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          <a onClick={logout} className="text-sm font-semibold leading-6 text-gray-900 hover:text-green-700 transition-all" role='button'>
+            Logout <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </nav>
+
+    </header>
+    )
 };
 
 export default Header;
+
+
+
+

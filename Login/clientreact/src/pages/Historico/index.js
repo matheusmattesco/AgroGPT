@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Image } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../../services/api";
 import GerarPDF from "../../Components/PDF/pdf";
 import Header from '../../Components/Header/header';
@@ -119,7 +119,7 @@ export default function Historico() {
             <li key={pred.id}>
               <div className=" border border-gray-200 rounded-lg shadow">
                 <a href="#">
-                  <Image className="rounded-t w-full h-64 object-cover" src={cultureImages[pred.predictedLabel]} alt={pred.predictedLabel} />
+                  <img className="rounded-t w-full h-64 object-cover" src={cultureImages[pred.predictedLabel]} alt={pred.predictedLabel} />
                 </a>
                 <div className="p-5">
                   <a href="#">
