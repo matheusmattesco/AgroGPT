@@ -24,7 +24,7 @@ namespace APIAgroGPT.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<MetricsResult>> GetMetrics( int numberOfTrees = 17, int numberOfLeaves = 4, float featureFraction = 1F, double testFraction = 0.2)
+        public async Task<ActionResult<MetricsResult>> GetMetrics( int numberOfTrees = 17, int numberOfLeaves = 4, double testFraction = 0.2, double featureFraction = 1)
         {
             var dataset = _context.Data.LoadFromTextFile<InputModel>(
                 path: "C:\\Users\\a895091\\OneDrive - Atos\\Documentos\\ml.net\\Crop_recommendation.csv", hasHeader: true, separatorChar: ',', allowQuoting: true);
@@ -39,13 +39,10 @@ namespace APIAgroGPT.Controllers
                 {
                     //NumberOfTrees = 17,
                     //NumberOfLeaves = 4,
-                    //FeatureFraction = 1F
                     
-                    TestFrequency = 1,
-                    Bias = 1,
+                    FeatureFraction = featureFraction,
                     NumberOfTrees = numberOfTrees,
                     NumberOfLeaves = numberOfLeaves,
-                    FeatureFraction = featureFraction
                 }),
                 labelColumnName: "Label"
             );
