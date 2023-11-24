@@ -168,7 +168,11 @@ const fetchMetrics = async () => {
         <div>
         {loading && (
             <div className="skeleton flex items-center justify-center h-screen w-screen">
-            <img src={Unifil} className="filter grayscale opacity-20" alt="Unifil Logo" />
+            <img
+                src={Unifil}
+                className="filter grayscale animate-pulse"
+                alt="Unifil Logo"
+            />
             </div>
         )}
 

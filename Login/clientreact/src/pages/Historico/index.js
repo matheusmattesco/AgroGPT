@@ -4,6 +4,8 @@ import GerarPDF from "../../Components/PDF/pdf";
 import Header from '../../Components/Header/header';
 import { FaRegFilePdf } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai';
+import Unifil from '../../assets/unifil.png';
+import "./style.css";
 
 
 import riceImg from '../../assets/culturas_img/arroz.jpg';
@@ -32,6 +34,8 @@ import coffeeImg from '../../assets/culturas_img/cafe.jpg';
 
 export default function Historico() {
 
+
+  const [loading, setLoading] = useState(true);
   const cultureImages = {
     rice: riceImg,
     maize: maizeImg,
@@ -86,83 +90,108 @@ export default function Historico() {
       setPredicao(updatedPredicoes);
     } catch (error) {
       console.error("Erro na solicitação:", error);
-    }
+    }finally {
+      setLoading(false); // Marcar como não mais carregando, independentemente do resultado
+  }
+    
   };
 
   useEffect(() => {
-    api.get('api/MachineLearning', authorization).then(response => {
-      setPredicao(response.data);
-    }).catch(error => {
-      console.error("Erro ao buscar dados:", error);
-    });
+    setLoading(true); // Marcar como carregando antes da requisição
+  
+    api.get('api/MachineLearning', authorization)
+      .then(response => {
+        setPredicao(response.data);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar dados:", error);
+      })
+      .finally(() => {
+        setLoading(false); // Marcar como não mais carregando, independentemente do resultado
+      });
   }, []);
 
   return (
     <div>
-      <Header />
-      <div className="aluno-container">
-        <header>
-          <span>Bem-vindo, <strong>{email}</strong>!</span>
-        </header>
+      {loading && (
+        <div className="skeleton flex items-center justify-center h-screen w-screen">
+          <img
+            src={Unifil}
+            className="filter grayscale animate-pulse"
+            alt="Unifil Logo"
+          />
+        </div>
+      )}
 
-        <form>
-          <input type="text" placeholder="Id" />
-          <button>
-            Filtrar Predição por ID
-          </button>
-        </form>
-        <h1>Histórico de Predições</h1>
+      {!loading && (
+        <div>
+          <Header />
+          <div className="aluno-container">
+            <header>
+              <span>Bem-vindo, <strong>{email}</strong>!</span>
+            </header>
+
+            <form>
+              <input type="text" placeholder="Id" />
+              <button>
+                Filtrar Predição por ID
+              </button>
+            </form>
+            <h1>Histórico de Predições</h1>
 
 
-        <ul>
-          {predicao.map((pred) => (
-            <li key={pred.id}>
-              <div className=" border border-gray-200 rounded-lg shadow">
-                <a href="#">
-                  <img className="rounded-t w-full h-64 object-cover" src={cultureImages[pred.predictedLabel]} alt={pred.predictedLabel} />
-                </a>
-                <div className="p-5">
-                  <a href="#">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Id: {pred.id}</h5>
-                  </a>
-                  <p className="mb-3 font-normal text-gray-700">
-                    <b>Autor: </b>
-                    {pred.autor}
-                    <br />
-                    <b>Nome: </b>
-                    {pred.nome}
-                    <br />
-                    <b>Nitrato: </b>
-                    {pred.n}
-                    <br />
-                    <b>Fósforo: {pred.p}</b>
-                    <br />
-                    <b>Potásio: {pred.k}</b>
-                    <br />
-                    <b>PH {pred.ph}</b>
-                    <br />
-                    <b>Chuva: {pred.rainfall}</b>
-                    <br />
-                    <b>Umidade: {pred.humidity}</b>
-                    <br />
-                    <b>Resultado: </b>
-                    {pred.predictedLabel}
-                  </p>
-                  <a onClick={() => GerarPDF(pred)} class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 mr-4">
-                    Download PDF
-                    <FaRegFilePdf className="w-3.5 h-3.5 ml-2" />
-                  </a>
-                  <a onClick={() => handleExcluirPredicao(pred.id)} class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800">
-                    Excluir
-                    <AiOutlineDelete className="w-3.5 h-3.5 ml-2" />
-                    
-                  </a>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+            <ul>
+              {predicao.map((pred) => (
+                <li key={pred.id}>
+                  <div className=" border border-gray-200 rounded-lg shadow">
+                    <a href="#">
+                      <img className="rounded-t w-full h-64 object-cover" src={cultureImages[pred.predictedLabel]} alt={pred.predictedLabel} />
+                    </a>
+                    <div className="p-5">
+                      <a href="#">
+                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Id: {pred.id}</h5>
+                      </a>
+                      <p className="mb-3 font-normal text-gray-700">
+                        <b>Autor: </b>
+                        {pred.autor}
+                        <br />
+                        <b>Nome: </b>
+                        {pred.nome}
+                        <br />
+                        <b>Nitrato: </b>
+                        {pred.n}
+                        <br />
+                        <b>Fósforo: {pred.p}</b>
+                        <br />
+                        <b>Potásio: {pred.k}</b>
+                        <br />
+                        <b>PH {pred.ph}</b>
+                        <br />
+                        <b>Chuva: {pred.rainfall}</b>
+                        <br />
+                        <b>Umidade: {pred.humidity}</b>
+                        <br />
+                        <b>Resultado: </b>
+                        {pred.predictedLabel}
+                      </p>
+                      <a onClick={() => GerarPDF(pred)} class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 mr-4">
+                        Download PDF
+                        <FaRegFilePdf className="w-3.5 h-3.5 ml-2" />
+                      </a>
+                      <a onClick={() => handleExcluirPredicao(pred.id)} class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800">
+                        Excluir
+                        <AiOutlineDelete className="w-3.5 h-3.5 ml-2" />
+
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

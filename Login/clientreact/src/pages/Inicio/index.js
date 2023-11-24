@@ -12,6 +12,7 @@ import GerarPDF from "../../Components/PDF/pdf";
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
 
 
+
 export default function Inicio() {
     return (
         <div>
