@@ -64,7 +64,7 @@ const ConsultaDataset = () => {
                                 <p className="mt-6 text-xl leading-8 text-gray-700">
                                     Aqui nessa seção, é disponibilizado o dataset utilizado par ao treinamento e a opção de consultar e entender um pouco mais do funcionamento
                                 </p>
-                                <CSVLoader filePath="../../assets/Crop_recommendation.csv" />
+                                
                             </div>
                         </div>
                     </div>
@@ -107,28 +107,39 @@ const ConsultaDataset = () => {
                     
                     
                         <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
-                        <div className=" w-72 flex-col gap-6">
+                        <div className=" w-auto flex-col gap-6">
+                        <div className=' bg-gray-300/40'>
+                            <div className='h-full flex flex-col justify-center items-center'>
+                                <h1 className='p-3 text-xl font-semibold leading-7 text-green-600'>Gráfico de dispersão:</h1>
+                            </div>
+                             
+                                <CSVLoader/>
+                        </div>
+
                         <Select
-                            onChange={(value) => handleInputChange(value)}
-                            color="green"
-                            label="Selecionar Cultura"
-                            value={selectedLabel} // Adicione a propriedade 'value' ao Select
-                        >
-                            {Opcoes.map((item, index) => (
-                                <Option key={index} value={item}>{item}</Option>
-                            ))}
-                        </Select>
-                        loadCSV();
+                                    onChange={(value) => handleInputChange(value)}
+                                    color="green"
+                                    label="Selecionar Cultura"
+                                    value={selectedLabel} 
+                                // Adicione a propriedade 'value' ao Select
+                                >
+                                    {Opcoes.map((item, index) => (
+                                        <Option key={index} value={item}>{item}</Option>
+                                    ))}
+                                </Select>
+
                         {data ? (
-                            <div className="resultados-dataset">
-                                <h3 className="text-base font-semibold leading-7 text-gray-900">Valores Retornados da API:</h3>
+                            <div className="resultados-dataset mt-10 bg-gray-300/40 p-10">
+                                <h3 className="text-base font-semibold leading-7 text-gray-900">Relatório Dataset:</h3>
+
+                                
 
                                 {/* Label */}
-                                <div className="mt-6 border-t border-gray-100">
+                                <div className="mt-6 border-t border-gray-600">
                                     <dl className="divide-y divide-gray-100">
                                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900">Label</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.label}</dd>
+                                            <dt className="text-xl font-medium leading-6 text-gray-900">Cultura</dt>
+                                            <dd className="mt-1 text-xl leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.label}</dd>
                                         </div>
                                     </dl>
                                 </div>
@@ -137,116 +148,92 @@ const ConsultaDataset = () => {
 
 
                                 {/* Min and Max Values */}
-                                <div className="mt-6 border-t border-gray-100">
-                                    <dl className="divide-y divide-gray-100 flex flex-col">
+                                <div className="mt-6 border-t border-gray-600">
+                                    <dl className="divide-y divide-gray-300 flex flex-col">
                                         <div className="px-4 pt-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                             <dt className="text-sm font-medium leading-6 text-gray-900">Nitrogênio Minimo</dt>
+                                            <dd className="text-sm font-medium leading-6 text-gray-900">Nitrogênio Médio</dd>
                                             <dd className="text-sm font-medium leading-6 text-gray-900">Nitrogênio Máximo</dd>
                                         </div>
 
                                         <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minN}</dt>
-                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxN}</dd>
+                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minN.toFixed(2)}</dt>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.averageN.toFixed(2)}</dd>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxN.toFixed(2)}</dd>
                                         </div>
 
                                         <div className="px-4 pt-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                             <dt className="text-sm font-medium leading-6 text-gray-900">Fosforo Minimo</dt>
+                                            <dd className="text-sm font-medium leading-6 text-gray-900">Fosforo Médio</dd>
                                             <dd className="text-sm font-medium leading-6 text-gray-900">Fosforo Máximo</dd>
                                         </div>
 
                                         <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minP}</dt>
-                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxP}</dd>
+                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minP.toFixed(2)}</dt>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.averageP.toFixed(2)}</dd>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxP.toFixed(2)}</dd>
                                         </div>
 
                                         <div className="px-4 pt-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                             <dt className="text-sm font-medium leading-6 text-gray-900">Potassio Minimo</dt>
-                                            <dd className="text-sm font-medium leading-6 text-gray-900">Potassio Maximo</dd>
+                                            <dd className="text-sm font-medium leading-6 text-gray-900">Potassio Médio</dd>
+                                            <dt className="text-sm font-medium leading-6 text-gray-900">Potassio Minimo</dt>
                                         </div>
 
                                         <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minK}</dt>
-                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxK}</dd>
+                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minK.toFixed(2)}</dt>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.averageK.toFixed(2)}</dd>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxK.toFixed(2)}</dd>
                                         </div>
 
                                         <div className="px-4 pt-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                             <dt className="text-sm font-medium leading-6 text-gray-900">Temperatura Minima</dt>
-                                            <dd className="text-sm font-medium leading-6 text-gray-900">Temperatura Máxima Maxima</dd>
+                                            <dd className="text-sm font-medium leading-6 text-gray-900">Temperatura Média</dd>
+                                            <dd className="text-sm font-medium leading-6 text-gray-900">Temperatura Máxima</dd>
                                         </div>
 
                                         <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minTemperature}</dt>
-                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxTemperature}</dd>
+                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minTemperature.toFixed(2)}</dt>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.averageTemperature.toFixed(2)}</dd>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxTemperature.toFixed(2)}</dd>
                                         </div>
 
                                         <div className="px-4 pt-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                             <dt className="text-sm font-medium leading-6 text-gray-900">Umidade Minima</dt>
+                                            <dd className="text-sm font-medium leading-6 text-gray-900">Umidade Média</dd>
                                             <dd className="text-sm font-medium leading-6 text-gray-900">Umidade Maxima</dd>
                                         </div>
 
                                         <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minHumidity}</dt>
-                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxHumidity}</dd>
+                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minHumidity.toFixed(2)}</dt>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.averageHumidity.toFixed(2)}</dd>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxHumidity.toFixed(2)}</dd>
                                         </div>
 
                                         <div className="px-4 pt-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                             <dt className="text-sm font-medium leading-6 text-gray-900">Nível de Chuva Minimo</dt>
                                             <dd className="text-sm font-medium leading-6 text-gray-900">Nível de Chuva Maximo</dd>
+                                            <dd className="text-sm font-medium leading-6 text-gray-900">Nível de Chuva Média</dd>
                                         </div>
 
                                         <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minRainfall}</dt>
-                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxRainfall}</dd>
+                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minRainfall.toFixed(2)}</dt>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.averageRainfall.toFixed(2)}</dd>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxRainfall.toFixed(2)}</dd>
                                         </div>
 
-                                        {/* Repeat similar blocks for other values like MinP, MinK, ... */}
-                                        {/* ... */}
-                                        {/* ... */}
-                                        {/* ... */}
-                                    </dl>
-                                </div>
-
-                                {/* Average Values */}
-                                <div className="mt-6 border-t border-gray-100">
-                                    <dl className="divide-y divide-gray-100">
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900">Média Nitrogenio</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.averageN.toFixed(2)}</dd>
-                                        </div>
-
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900">Média Fósforo</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.averageP.toFixed(2)}</dd>
-                                        </div>
-
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900">Média Potassio</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.averageK.toFixed(2)}</dd>
-                                        </div>
-
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900">Temperatura Média</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.averageTemperature.toFixed(2)}</dd>
-                                        </div>
-
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900">Umidade Média</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.averageHumidity.toFixed(2)}</dd>
-                                        </div>
-
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900">Umidade Média</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.averageHumidity.toFixed(2)}</dd>
-                                        </div>
-
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <div className="px-4 pt-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm font-medium leading-6 text-gray-900">PH Mínimo</dt>
                                             <dt className="text-sm font-medium leading-6 text-gray-900">PH Médio</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{data.averagepH.toFixed(2)}</dd>
+                                            <dt className="text-sm font-medium leading-6 text-gray-900">PH Máximo</dt>
                                         </div>
-                                        {/* Repeat similar blocks for other average values */}
-                                        {/* ... */}
-                                        {/* ... */}
-                                        {/* ... */}
+                                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.minpH.toFixed(2)}</dt>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.averagepH.toFixed(2)}</dd>
+                                            <dd className=" text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">{data.maxpH.toFixed(2)}</dd>
+                                        </div>
+                                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        </div>
                                     </dl>
                                 </div>
                             </div>

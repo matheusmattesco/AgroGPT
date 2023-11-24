@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import ApexChart from 'react-apexcharts';
 import CSV from '../../assets/Crop_recommendation.csv';
+import { Select, Option } from "@material-tailwind/react";
 
 const Opcoes = [
-    "rice", "maize", "chickpea", "kidneybeans", "pigeonpeas",
+    "all", "rice", "maize", "chickpea", "kidneybeans", "pigeonpeas",
     "mothbeans", "mungbean", "blackgram", "lentil", "pomegranate",
     "banana", "mango", "grapes", "watermelon", "muskmelon",
     "apple", "orange", "papaya", "coconut", "cotton",
@@ -14,32 +15,63 @@ const Opcoes = [
 
 
 function CSVLoader() {
-        const [options, setOptions] = useState({
-          chart: {
-            height: 350,
-            type: 'scatter',
-            zoom: {
-              enabled: true,
-              type: 'xy'
+
+    
+    const [options, setOptions] = useState({
+        chart: {
+          animations: {
+            enabled: false,
+          },
+          height: 350,
+          type: 'scatter',
+          zoom: {
+            enabled: true,
+            type: 'xy'
+          },  
+        },
+        grid: {
+          xaxis: {
+            lines: {
+              show: true
             }
           },
-          xaxis: {
+        },
+        xaxis: {
+          lines: {
+            show: true
+          },
             tickAmount: 10,
             labels: {
-              formatter: function (val) {
-                return parseFloat(val).toFixed(1);
+              formatter: function(val) {
+                return parseFloat(val).toFixed(1)
               }
             }
           },
-          yaxis: {
-            tickAmount: 7
+        yaxis: {
+          lines: {
+            show: true
+          },
+          tickAmount: 10,
+          labels: {
+            formatter: function(val) {
+              return parseFloat(val).toFixed(1)
+            }
           }
-        });
+        },
+        colors: [
+            '#119136', '#ffb6c1', '#add8e6', '#98fb98', '#dda0dd', '#87ceeb',
+            '#f08080', '#90ee90', '#ff6347', '#dda0dd', '#00fa9a', '#ff69b4',
+            '#87cefa', '#fa8072', '#98fb98', '#ff4500', '#dda0dd', '#ffb6c1',
+            '#ff7f50', '#00ffff'
+          ]
+      });
       
         const [series, setSeries] = useState([]);
         const [xColumn, setXColumn] = useState('humidity');
         const [yColumn, setYColumn] = useState('temperature');
-        const [selectedLabel, setSelectedLabel] = useState("rice");
+        const [selectedLabel, setSelectedLabel] = useState("all");
+
+        
       
         const handleFile = () => {
             Papa.parse(CSV, {
@@ -51,7 +83,7 @@ function CSVLoader() {
                 if (selectedLabel === "all") {
                   labels = [...new Set(result.data.map(item => item.label))];
                 } else {
-                  labels = [selectedLabel];
+                    labels = [selectedLabel];
                 }
         
                 const uniqueLabels = labels;
@@ -66,9 +98,10 @@ function CSVLoader() {
                 ...options,
                 xaxis: {
                   ...options.xaxis,
-                  categories: uniqueLabels
                 }
               });
+
+
       
               setSeries(generatedSeries);
             }
@@ -83,9 +116,9 @@ function CSVLoader() {
             setYColumn(event.target.value);
           };
 
-          const handleLabelChange = (event) => {
-            setSelectedLabel(event.target.value);
-          };
+          const handleInputChange = (value) => {
+            setSelectedLabel(value);
+        };
 
           useEffect(() => {
             handleFile();
@@ -94,39 +127,59 @@ function CSVLoader() {
 
 return (
     <div>
-      <div>
-        <label htmlFor="xColumn">Escolha a coluna X:</label>
-        <select id="xColumn" value={xColumn} onChange={handleXColumnChange}>
-          <option value="N">N</option>
-          <option value="P">P</option>
-          <option value="K">K</option>
-          <option value="temperature">Temperature</option>
-          <option value="humidity">Humidity</option>
-          <option value="ph">pH</option>
-          <option value="rainfall">Rainfall</option>
-        </select>
+      <div className='flex-column p-6'>
+        <div className=' m-5'>
+        <Select 
+            id="xColumn" 
+            value={xColumn} 
+            onChange={(value) => handleXColumnChange({ target: { value } })} 
+            label="Coluna X"
+        >
+          <Option value="N">N</Option>
+          <Option value="P">P</Option>
+          <Option value="K">K</Option>
+          <Option value="temperature">Temperature</Option>
+          <Option value="humidity">Humidity</Option>
+          <Option value="ph">pH</Option>
+          <Option value="rainfall">Rainfall</Option>
+        </Select>
+        </div>
 
-        <label htmlFor="yColumn">Escolha a coluna Y:</label>
-        <select id="yColumn" value={yColumn} onChange={handleYColumnChange}>
-          <option value="N">N</option>
-          <option value="P">P</option>
-          <option value="K">K</option>
-          <option value="temperature">Temperature</option>
-          <option value="humidity">Humidity</option>
-          <option value="ph">pH</option>
-          <option value="rainfall">Rainfall</option>
-        </select>
+        <div className=' m-5'>
+        <Select 
+            id="yColumn" 
+            value={yColumn} 
+            onChange={(value) => handleYColumnChange({ target: { value } })} 
+            label="Coluna Y"
+        >
+          <Option value="N">N</Option>
+          <Option value="P">P</Option>
+          <Option value="K">K</Option>
+          <Option value="temperature">Temperature</Option>
+          <Option value="humidity">Humidity</Option>
+          <Option value="ph">pH</Option>
+          <Option value="rainfall">Rainfall</Option>
+        </Select>
+        </div>
 
-        <label htmlFor="label">Escolha a label:</label>
-        <select id="label" value={selectedLabel} onChange={handleLabelChange}>
-          <option value="all">Todas as labels</option>
-          {Opcoes.map((label) => (
-            <option key={label} value={label}>{label}</option>
-          ))}
-        </select>
+        <div className=' m-5'>
+        <Select 
+            onChange={(value) => handleInputChange(value)}
+            color="green"
+            label="Selecionar Cultura"
+            value={selectedLabel} 
+        >
+        
+        {Opcoes.map((item, index) => (
+        <Option key={index} value={item}>
+            {item === "all" ? "Todas as culturas" : item}
+        </Option>
+    ))}
+        </Select>
+        </div>
       </div>
-      <br />
-      <ApexChart options={options} series={series} type="scatter" height={350} />
+
+        <ApexChart options={options} series={series} type="scatter" height={350} />
     </div>
   );
 }
