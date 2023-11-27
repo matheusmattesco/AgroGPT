@@ -49,11 +49,13 @@ const ConsultaDataset = () => {
     ];
 
     useEffect(() => {
+        
         fetchData();
         setLoading(true);
 
         if (!token) {
             alert("Token não encontrado. O usuário não está autenticado.");
+            
             setLoading(false);
             return;
           }

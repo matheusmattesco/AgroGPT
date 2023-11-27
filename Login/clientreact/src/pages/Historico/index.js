@@ -9,6 +9,13 @@ import "./style.css";
 import PredictionCard from "../../Components/Card/PredictionCard";
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
 import InicioIMG from '../../assets/plantacao-arte-digital.jpg';
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
 
 export default function Historico() {
 
@@ -16,6 +23,9 @@ export default function Historico() {
   const [loading, setLoading] = useState(true);
 
   const [predicao, setPredicao] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [idToDelete, setIdToDelete] = useState(null);
+
   const email = localStorage.getItem('email');
   const token = localStorage.getItem('token');
 
@@ -26,7 +36,12 @@ export default function Historico() {
     }
   };
 
-  const handleExcluirPredicao = async (id) => {
+  const handleExcluirPredicao = (id) => {
+    setIdToDelete(id);
+    setOpen(true);
+  };
+
+  const handleConfirmExcluirPredicao = async (id) => {
     try {
       const apiUrl = 'https://localhost:7181';
       const response = await fetch(apiUrl + `/api/MachineLearning/${id}`, {
@@ -46,7 +61,9 @@ export default function Historico() {
     } catch (error) {
       console.error("Erro na solicitação:", error);
     } finally {
-      setLoading(false); // Marcar como não mais carregando, independentemente do resultado
+      setLoading(false);
+      setOpen(false);
+      alert('Análise excluída com sucesso!')
     }
 
   };
@@ -127,7 +144,7 @@ export default function Historico() {
                         key={pred.id}
                         pred={pred}
                         onDownloadPDF={GerarPDF}
-                        onDelete={handleExcluirPredicao}
+                        onDelete={() => handleExcluirPredicao(pred.id)}
                       />
                     ))}
                   </div>
@@ -137,9 +154,28 @@ export default function Historico() {
 
             </div>
           </div>
-          </div>
-      )}
         </div>
-      );
+      )}
+      <Dialog open={open} handler={() => setOpen(!open)}>
+        <DialogHeader>Exclusão de análise.</DialogHeader>
+        <DialogBody>
+          Tem certeza que deseja excluir a análise {idToDelete}?
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => setOpen(false)}
+            className="mr-1"
+          >
+            <span>Cancelar</span>
+          </Button>
+          <Button variant="gradient" color="green" onClick={() => handleConfirmExcluirPredicao(idToDelete)}>
+            <span>Confirmar</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+    </div>
+  );
 }
 

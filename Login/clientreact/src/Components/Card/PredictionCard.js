@@ -58,7 +58,6 @@ const cultureImages = {
   coffee: coffeeImg,
 };
 
-
 const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
   return (
     <Card className="mt-6 w-80 ">
@@ -95,7 +94,7 @@ const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
           Download
           <FaRegFilePdf className="w-3 h-3 ml-1" />
         </Button>
-    <Button
+          <Button
             onClick={() => onDelete(pred.id)}
             variant="text"
             color="red"
