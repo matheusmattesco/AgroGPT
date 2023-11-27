@@ -6,64 +6,19 @@ import { FaRegFilePdf } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai';
 import Unifil from '../../assets/unifil.png';
 import "./style.css";
-
-
-import riceImg from '../../assets/culturas_img/arroz.jpg';
-import maizeImg from '../../assets/culturas_img/milho.jpg';
-import chickpeaImg from '../../assets/culturas_img/graodebico.jpg';
-import kidneyBeansImg from '../../assets/culturas_img/feijao.jpg';
-import pigeonPeasImg from '../../assets/culturas_img/ervilha.jpg';
-import mothBeansImg from '../../assets/culturas_img/feijao2.jpg';
-import mungBeanImg from '../../assets/culturas_img/feijao3.jpg';
-import blackGramImg from '../../assets/culturas_img/feijao4.webp';
-import lentilImg from '../../assets/culturas_img/lentilha.jpg';
-import pomegranateImg from '../../assets/culturas_img/roma.jpg';
-import bananaImg from '../../assets/culturas_img/banana.jpg';
-import mangoImg from '../../assets/culturas_img/manga.jpg';
-import grapesImg from '../../assets/culturas_img/uva.jpg';
-import watermelonImg from '../../assets/culturas_img/melancia.jpg';
-import muskmelonImg from '../../assets/culturas_img/melao.jpg';
-import appleImg from '../../assets/culturas_img/maca.jpg';
-import orangeImg from '../../assets/culturas_img/laranja.jpg';
-import papayaImg from '../../assets/culturas_img/papaya.jpg';
-import coconutImg from '../../assets/culturas_img/coco.jpg';
-import cottonImg from '../../assets/culturas_img/algodao.jpg';
-import juteImg from '../../assets/culturas_img/juta.jpg';
-import coffeeImg from '../../assets/culturas_img/cafe.jpg';
-
+import PredictionCard from "../../Components/Card/PredictionCard";
+import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
+import InicioIMG from '../../assets/plantacao-arte-digital.jpg';
 
 export default function Historico() {
 
 
   const [loading, setLoading] = useState(true);
-  const cultureImages = {
-    rice: riceImg,
-    maize: maizeImg,
-    chickpea: chickpeaImg,
-    kidneybeans: kidneyBeansImg,
-    pigeonpeas: pigeonPeasImg,
-    mothbeans: mothBeansImg,
-    mungbean: mungBeanImg,
-    blackgram: blackGramImg,
-    lentil: lentilImg,
-    pomegranate: pomegranateImg,
-    banana: bananaImg,
-    mango: mangoImg,
-    grapes: grapesImg,
-    watermelon: watermelonImg,
-    muskmelon: muskmelonImg,
-    apple: appleImg,
-    orange: orangeImg,
-    papaya: papayaImg,
-    coconut: coconutImg,
-    cotton: cottonImg,
-    jute: juteImg,
-    coffee: coffeeImg,
-  };
 
   const [predicao, setPredicao] = useState([]);
   const email = localStorage.getItem('email');
   const token = localStorage.getItem('token');
+
 
   const authorization = {
     headers: {
@@ -90,15 +45,22 @@ export default function Historico() {
       setPredicao(updatedPredicoes);
     } catch (error) {
       console.error("Erro na solicitação:", error);
-    }finally {
+    } finally {
       setLoading(false); // Marcar como não mais carregando, independentemente do resultado
-  }
-    
+    }
+
   };
 
   useEffect(() => {
     setLoading(true); // Marcar como carregando antes da requisição
-  
+
+    if (!token) {
+      // Caso o token não esteja presente, exiba uma mensagem
+      alert("Token não encontrado. O usuário não está autenticado.");
+      setLoading(false); // Marcar como não mais carregando
+      return;
+    }
+
     api.get('api/MachineLearning', authorization)
       .then(response => {
         setPredicao(response.data);
@@ -109,7 +71,7 @@ export default function Historico() {
       .finally(() => {
         setLoading(false); // Marcar como não mais carregando, independentemente do resultado
       });
-  }, []);
+  }, [token]);
 
   return (
     <div>
@@ -126,72 +88,58 @@ export default function Historico() {
       {!loading && (
         <div>
           <Header />
-          <div className="aluno-container">
-            <header>
-              <span>Bem-vindo, <strong>{email}</strong>!</span>
-            </header>
+          <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0 mt-12">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <svg
+                className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]"
+                aria-hidden="true"
+              >
+                <defs>
+                  <pattern
+                    id="e813992c-7d03-4cc4-a2bd-151760b470a0"
+                    width={200}
+                    height={200}
+                    x="50%"
+                    y={-1}
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <path d="M100 200V.5M.5 .5H200" fill="none" />
+                  </pattern>
+                </defs>
+                <svg x="50%" y={-1} className="overflow-visible fill-gray-50">
+                  <path
+                    d="M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z"
+                    strokeWidth={0}
+                  />
+                </svg>
+                <rect width="100%" height="100%" strokeWidth={0} fill="url(#e813992c-7d03-4cc4-a2bd-151760b470a0)" />
+              </svg>
+            </div>
 
-            <form>
-              <input type="text" placeholder="Id" />
-              <button>
-                Filtrar Predição por ID
-              </button>
-            </form>
-            <h1>Histórico de Predições</h1>
+            <div>
 
-
-            <ul>
-              {predicao.map((pred) => (
-                <li key={pred.id}>
-                  <div className=" border border-gray-200 rounded-lg shadow">
-                    <a href="#">
-                      <img className="rounded-t w-full h-64 object-cover" src={cultureImages[pred.predictedLabel]} alt={pred.predictedLabel} />
-                    </a>
-                    <div className="p-5">
-                      <a href="#">
-                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Id: {pred.id}</h5>
-                      </a>
-                      <p className="mb-3 font-normal text-gray-700">
-                        <b>Autor: </b>
-                        {pred.autor}
-                        <br />
-                        <b>Nome: </b>
-                        {pred.nome}
-                        <br />
-                        <b>Nitrato: </b>
-                        {pred.n}
-                        <br />
-                        <b>Fósforo: {pred.p}</b>
-                        <br />
-                        <b>Potásio: {pred.k}</b>
-                        <br />
-                        <b>PH {pred.ph}</b>
-                        <br />
-                        <b>Chuva: {pred.rainfall}</b>
-                        <br />
-                        <b>Umidade: {pred.humidity}</b>
-                        <br />
-                        <b>Resultado: </b>
-                        {pred.predictedLabel}
-                      </p>
-                      <a onClick={() => GerarPDF(pred)} class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 mr-4">
-                        Download PDF
-                        <FaRegFilePdf className="w-3.5 h-3.5 ml-2" />
-                      </a>
-                      <a onClick={() => handleExcluirPredicao(pred.id)} class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800">
-                        Excluir
-                        <AiOutlineDelete className="w-3.5 h-3.5 ml-2" />
-
-                      </a>
-                    </div>
+              <div className="mx-auto flex justify-center items-center">
+                <div>
+                  <h1>Histórico de Predições</h1>
+                  <div className="grid grid-cols-3 gap-20">
+                    {predicao.map((pred) => (
+                      <PredictionCard
+                        key={pred.id}
+                        pred={pred}
+                        onDownloadPDF={GerarPDF}
+                        onDelete={handleExcluirPredicao}
+                      />
+                    ))}
                   </div>
-                </li>
-              ))}
-            </ul>
+                </div>
+              </div>
+
+
+            </div>
           </div>
-        </div>
+          </div>
       )}
-    </div>
-  );
+        </div>
+      );
 }
 

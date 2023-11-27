@@ -13,6 +13,7 @@ export default function Login() {
     const [error, setError] = useState('');
     const [eyeIsClosed, setEyeState] = useState(false);
     const inputRef = useRef(null);
+    
 
     const toggleShow = () => {
         if (inputRef.current.type === "password") {

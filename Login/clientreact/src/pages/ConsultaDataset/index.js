@@ -7,17 +7,31 @@ import { Select, Option } from "@material-tailwind/react";
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
 import ReactApexChart from "react-apexcharts";
 import CSVLoader from '../../Components/Plot/ScatterPlot';
+import Footer from '../../Components/Footer/footer';
 
 
 
 const ConsultaDataset = () => {
     const [selectedLabel, setSelectedLabel] = useState(''); // Valor padrão
     const [data, setData] = useState(null);
+    const token = localStorage.getItem('token');
+    const [loading, setLoading] = useState(true);
+    
+  
+    const authorization = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
 
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`https://localhost:7181/api/dataset/${selectedLabel}`);           
+            const response = await axios.get(`https://localhost:7181/api/dataset/${selectedLabel}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });        
             setData(response.data);
 
         } catch (error) {
@@ -36,15 +50,17 @@ const ConsultaDataset = () => {
 
     useEffect(() => {
         fetchData();
+        setLoading(true);
+
+        if (!token) {
+            alert("Token não encontrado. O usuário não está autenticado.");
+            setLoading(false);
+            return;
+          }
     }, [selectedLabel]);
 
     const handleInputChange = (value) => {
         setSelectedLabel(value);
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        fetchData();
     };
 
     return (
@@ -278,6 +294,7 @@ const ConsultaDataset = () => {
                     
                 
             </div>
+            <Footer/>
         </div>
     );
 };

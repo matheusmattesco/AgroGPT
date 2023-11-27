@@ -7,11 +7,14 @@ using System.Linq;
 using Microsoft.ML.Data;
 using Microsoft.ML.Trainers.FastTree;
 using Microsoft.ML;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIAgroGPT.Controllers
 {
     [Route("api/metrics")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MetricsController : ControllerBase
     {
         private readonly MLContext _context;

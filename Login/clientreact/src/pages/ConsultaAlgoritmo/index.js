@@ -5,6 +5,7 @@ import Footer from '../../Components/Footer/footer';
 import ApexCharts from 'react-apexcharts';
 import Unifil from '../../assets/unifil.png';
 import "./style.css";
+import { Button } from '@material-tailwind/react';
 
 const ConsultaAlgoritmo = () => {
     const [metrics, setMetrics] = useState(null);
@@ -14,6 +15,7 @@ const ConsultaAlgoritmo = () => {
     const [featureFrequency, setFeatureFrequency] = useState(1);
     const [loading, setLoading] = useState(true);
     const [chartData, setChartData] = useState(null);
+    const token = localStorage.getItem('token');
     
 
     useEffect(() => {
@@ -26,7 +28,11 @@ const ConsultaAlgoritmo = () => {
 
 const fetchMetrics = async () => {
     try {
-        const response = await axios.get('https://localhost:7181/api/Metrics');
+        const response = await axios.get('https://localhost:7181/api/Metrics' , {
+            headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }); 
         setMetrics(response.data);
     } catch (error) {
         console.error('Erro ao buscar os dados:', error);
@@ -54,7 +60,18 @@ const fetchMetrics = async () => {
     const handleUpdate = async () => {
         try {
             setLoading(true);
+
+            if (!token) {
+                // Caso o token não esteja presente, exiba uma mensagem
+                alert("Token não encontrado. O usuário não está autenticado.");
+                setLoading(false); // Marcar como não mais carregando
+                return;
+              }
+
             const response = await axios.get('https://localhost:7181/api/Metrics', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
                 params: {
                     numberOfTrees: treeValue,
                     numberOfLeaves: leafValue,
@@ -134,15 +151,15 @@ const fetchMetrics = async () => {
                     const values = row.split('|').slice(1, -1);
                     return (
                     <tr key={rowIndex}>
-                        <td className="culture-cell">
+                        <td className="culture-cell font-semibold">
                         {rowIndex === 0 ? '' : cultureNames[rowIndex]}
                         </td>
                         {values.map((value, colIndex) => (
                         <td
                             key={colIndex}
-                            className="confusion-cell"
+                            className="confusion-cell font-semibold"
                             style={{
-                            backgroundColor: rowIndex === 0 ? 'transparent' : `rgba(64, 211, 115, ${parseFloat(value.trim()) / 30})`,
+                            backgroundColor: rowIndex === 0 ? 'transparent' : `rgba(34, 197, 94, ${parseFloat(value.trim()) / 30})`,
                             color: rowIndex === 0 || parseFloat(value.trim()) > 1 ? 'black' : 'white',
                             }}
                         >
@@ -154,7 +171,7 @@ const fetchMetrics = async () => {
                 })}
                 </tbody>
             </table>
-            <div className="absolute top-4 left-4 bg-green-700 h-full w-full z-0 shadow-xl rounded-lg opacity-70"></div>
+            <div className="absolute top-7 left-7 bg-black h-full w-full z-0 shadow-2xl rounded-lg opacity-70"></div>
             </div>
           );
         }
@@ -206,6 +223,7 @@ const fetchMetrics = async () => {
                        <rect width="100%" height="100%" strokeWidth={0} fill="url(#e813992c-7d03-4cc4-a2bd-151760b470a0)" />
                    </svg>
                </div>
+               
                <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10">
                    <div className="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
                        <div className="lg:pr-4">
@@ -269,8 +287,10 @@ const fetchMetrics = async () => {
                                    /> 
                                    <span>{featureFrequency}</span><br />
                                </div>
-           
-                               <button onClick={handleUpdate} className=' bg-green-700 text-white p-2 text-sm mt-1 hover:bg-green-600 transition-all'>Atualizar</button>
+
+                               <Button onClick={handleUpdate} size="sm"> 
+                                Atualizar
+                               </Button>
            
                                {loading && <p>Carregando dados da API Metrics...</p>}
                            </div>

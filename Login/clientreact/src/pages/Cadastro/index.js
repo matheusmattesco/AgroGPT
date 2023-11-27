@@ -25,6 +25,15 @@ export default function Cadastro() {
             return;
         }
 
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!password.match(passwordRegex)) {
+            setError(
+              "A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial."
+            );
+            return;
+          }
+
         const data = {
             email,
             nome,
@@ -42,7 +51,7 @@ export default function Cadastro() {
             navigate('/inicio'); // Use navigate para redirecionar
 
         } catch (error) {
-            alert('O cadastro falhou: ' + error.message);
+            alert("Ocorreu um erro no cadastro. Tente novamente.");
         }
     }
 

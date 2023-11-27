@@ -5,9 +5,12 @@ using MLModel2_WebApi2;
 using System;
 using Microsoft.AspNetCore.Http;
 using APIAgroGPT.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class MachineLearningController : ControllerBase
 {
     private readonly PredictionEnginePool<MLModel2.ModelInput, MLModel2.ModelOutput> _predictionEnginePool;

@@ -3,11 +3,14 @@ using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.ML.Data;
 using System.Globalization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIAgroGPT.Controllers
 {
     [Route("api/dataset")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DataSetController : ControllerBase
     {
 
