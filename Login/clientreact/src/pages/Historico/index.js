@@ -9,6 +9,7 @@ import "./style.css";
 import PredictionCard from "../../Components/Card/PredictionCard";
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
 import InicioIMG from '../../assets/plantacao-arte-digital.jpg';
+import { Link, useNavigate } from 'react-router-dom'
 import {
   Button,
   Dialog,
@@ -18,6 +19,12 @@ import {
 } from "@material-tailwind/react";
 
 export default function Historico() {
+
+  const navigate = useNavigate();
+
+  const TelaPredicao = () => {
+    navigate('/tela-predicao');
+  };
 
 
   const [loading, setLoading] = useState(true);
@@ -106,6 +113,26 @@ export default function Historico() {
         <div>
           <Header />
           <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0 mt-12">
+            <div className="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+              <div className="lg:pr-4">
+                <div className="lg:max-w-lg">
+                  <p className="text-base font-semibold leading-7 text-green-600">Histórico</p>
+                  <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Análises realizadas: </h1>
+                </div>
+              </div>
+              <p className="mt-6 text-xl leading-8 text-gray-700 lg:col-span-2">
+                Na seção atual, encontram-se as classificações já realizadas. Aqui, você tem a opção de baixar o relatório novamente ou excluí-las. No entanto, tome cuidado! Após a exclusão, não será possível recuperá-las.
+              </p>
+              <p className="mt-6 text-sm leading-8 text-gray-700 lg:col-span-2 pb-10">
+                Clique <a onClick={TelaPredicao} className="cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-green-700 transition-all">aqui</a> para ser encaminhado para a tela de classificação.
+              </p>
+            </div>
+
+
+
+
+
+
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <svg
                 className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]"
@@ -136,8 +163,9 @@ export default function Historico() {
             <div>
 
               <div className="mx-auto flex justify-center items-center">
+
+
                 <div>
-                  <h1>Histórico de Predições</h1>
                   <div className="grid grid-cols-3 gap-20">
                     {predicao.map((pred) => (
                       <PredictionCard
@@ -145,6 +173,7 @@ export default function Historico() {
                         pred={pred}
                         onDownloadPDF={GerarPDF}
                         onDelete={() => handleExcluirPredicao(pred.id)}
+                        
                       />
                     ))}
                   </div>

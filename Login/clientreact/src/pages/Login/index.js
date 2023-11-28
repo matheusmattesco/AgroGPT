@@ -1,6 +1,9 @@
 import React, { useRef, useState } from "react";
 import "./style.css";
 import {VscEye, VscEyeClosed} from "react-icons/vsc"
+import {
+    Button
+} from "@material-tailwind/react";
 
 import api from "../../services/api";
 
@@ -45,7 +48,7 @@ export default function Login() {
             navigate('/inicio'); // Use navigate para redirecionar
 
         } catch (error) {
-            alert('O login falhou: ' + error.message);
+            alert('Senha ou Login incorretos!');
         }
     }
 
@@ -63,21 +66,20 @@ export default function Login() {
                     />
                     <input 
                         ref={inputRef}
-                        className="input-login2"
+                        className="input-login"
                         type="password"
                         placeholder="Password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />
                     
-                        <span className="icon" onClick={toggleShow}>
-                            {eyeIsClosed ? <VscEyeClosed /> : <VscEye />}
-                        </span>
-                    
-                    <button className="button-login" type="submit">
+                    <Button type="submit"
+                                  variant="gradient"
+                                  size="md"
+                                  className="mr-2 mt-10">
                         Login
-                    </button>
-                    {error && <p className="error-message">{error}</p>}
+                    </Button>
+                    {error && <p className="error-message text-white">{error}</p>}
                 </form>
             </section>
         </div>

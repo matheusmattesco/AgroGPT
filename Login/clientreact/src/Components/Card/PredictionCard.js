@@ -1,4 +1,5 @@
 import React from 'react';
+import { GerarPDF2 } from '../PDF/pdf-react';
 import {
   Card,
   CardHeader,
@@ -76,9 +77,9 @@ const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
 
           <span>Autor: {pred.autor}</span>
           <span>Nome: {pred.nome} </span>
-          <span>Nitrato: {pred.n} </span>
+          <span>Nitrogênio: {pred.n} </span>
           <span>Fósforo: {pred.p}</span>
-          <span>Potásio: {pred.k}</span>
+          <span>Potássio: {pred.k}</span>
           <span>PH: {pred.ph}</span> 
           <span>Umidade: {pred.humidity}</span>
           <span>Chuva: {pred.rainfall}</span>
@@ -104,6 +105,7 @@ const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
             <span>Excluir</span>
             <AiOutlineDelete className="w-3 h-3 mr-1 " />
           </Button>
+          <button onClick={() => GerarPDF2(pred)}>Gerar PDF</button>
       </CardFooter>
     </Card>
   );

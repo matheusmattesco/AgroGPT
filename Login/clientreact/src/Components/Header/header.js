@@ -25,9 +25,6 @@ const Header = () => {
     navigate('/inicio');
   };
 
-  const Ajuda = () => {
-    navigate('/');
-  };
 
   const TelaPredicao = () => {
     navigate('/tela-predicao');

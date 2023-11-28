@@ -6,6 +6,9 @@ import api from "../../services/api";
 
 import logoImage from "../../assets/Icone ChatGPT.png";
 import { useNavigate } from 'react-router-dom';
+import {
+    Button,
+} from "@material-tailwind/react";
 
 export default function Cadastro() {
     const [email, setEmail] = useState('');
@@ -88,10 +91,13 @@ export default function Cadastro() {
                         value={confirmPassword}
                         onChange={e => setConfirmPassword(e.target.value)}
                     />
-                    <button className="button-cadastro" type="submit">
+                    <Button type="submit" 
+                                  variant="gradient"
+                                  size="md"
+                                  className="mr-2 mt-10">
                         Cadastro
-                    </button>
-                    {error && <p className="error-message">{error}</p>}
+                    </Button>
+                    {error && <p className="error-message text-white">{error}</p>}
                 </form>
             </section>
         </div>
