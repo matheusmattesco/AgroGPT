@@ -1,54 +1,21 @@
-import generatePDF, { Resolution, Margin } from 'react-to-pdf';
+import React from 'react';
 
-const options = {
-    // default is `save`
-    method: 'open',
-    // default is Resolution.MEDIUM = 3, which should be enough, higher values
-    // increases the image quality but also the size of the PDF, so be careful
-    // using values higher than 10 when having multiple pages generated, it
-    // might cause the page to crash or hang.
-    resolution: Resolution.HIGH,
-    page: {
-        // margin is in MM, default is Margin.NONE = 0
-        margin: Margin.SMALL,
-        // default is 'A4'
-        format: 'letter',
-        // default is 'portrait'
-        orientation: 'landscape',
-    },
-    canvas: {
-        // default is 'image/jpeg' for better size performance
-        mimeType: 'image/png',
-        qualityRatio: 1
-    },
-    // Customize any value passed to the jsPDF instance and html2canvas
-    // function. You probably will not need this and things can break, 
-    // so use with caution.
-    overrides: {
-        // see https://artskydj.github.io/jsPDF/docs/jsPDF.html for more options
-        pdf: {
-            compress: true
-        },
-        // see https://html2canvas.hertzen.com/configuration for more options
-        canvas: {
-            useCORS: true
-        }
-    },
-};
+const ExportContent = ({ pred }) => (
 
-// you can use a function to return the target element besides using React refs
-const getTargetElement = () => document.getElementById('content-id');
-
-export const GerarPDF2 = (data) => {
-    return (
-      <div>
-        <button onClick={() => generatePDF(getTargetElement, options)}>Gerar PDF</button>
-        <div id="content-id" className="p-4 bg-gray-200">
-          <p className="text-lg font-bold text-blue-500">Este é um parágrafo de exemplo para o PDF.</p>
-          {/* Inserir os dados específicos da análise no PDF aqui */}
-          <p>ID da Análise: {data.id}</p>
-          <p>Outro Dado: {data.outroDado}</p>
+<div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0 mt-12">
+    <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center text-center">
+            <h1 className="text-4xl font-bold mb-4">Hello, this will be exported as PDF!</h1>
+            <p className="mb-4">Additional content...</p>
+            <p className="bg-blue-500">TRUCOOOO</p>
+            <h1>{pred.id}</h1>
+            <p>{pred.k}</p>
+            <p>{pred.autor}</p>
+            <p>{pred.nome}</p>
+            <p className="mb-4">Label Previsto: {pred.predictedLabel}</p>
         </div>
-      </div>
-    );
-  };
+    </div>
+</div>
+);
+
+export default ExportContent;

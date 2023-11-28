@@ -1,5 +1,4 @@
 import React from 'react';
-import { GerarPDF2 } from '../PDF/pdf-react';
 import {
   Card,
   CardHeader,
@@ -32,6 +31,11 @@ import coconutImg from '../../assets/culturas_img/coco.jpg';
 import cottonImg from '../../assets/culturas_img/algodao.jpg';
 import juteImg from '../../assets/culturas_img/juta.jpg';
 import coffeeImg from '../../assets/culturas_img/cafe.jpg';
+import html2pdf from 'html2pdf.js';
+import ExportContent from '../PDF/pdf-react';
+import ReactDOMServer from 'react-dom/server';
+
+
 
 
 const cultureImages = {
@@ -59,9 +63,34 @@ const cultureImages = {
   coffee: coffeeImg,
 };
 
+
+
+
+
 const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
+
+  const handleDownloadPDF = () => {
+    const options = {
+      margin: 0,
+      filename: 'relatório.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+
+    const exportContent = ReactDOMServer.renderToString(
+      <ExportContent pred={pred} />
+    );
+
+    html2pdf()
+      .from(exportContent)
+      .set(options)
+      .outputPdf()
+      .save();
+  };
+
   return (
-    <Card className="mt-6 w-80 ">
+    <Card className="mt-6 w-80 " id='Card'>
       <CardHeader className="relative h-56">
         <img
           src={cultureImages[pred.predictedLabel]}
@@ -74,13 +103,12 @@ const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
           {`Id: ${pred.id}`}
         </Typography>
         <Typography className='text-xs flex flex-col'>
-
           <span>Autor: {pred.autor}</span>
           <span>Nome: {pred.nome} </span>
           <span>Nitrogênio: {pred.n} </span>
           <span>Fósforo: {pred.p}</span>
           <span>Potássio: {pred.k}</span>
-          <span>PH: {pred.ph}</span> 
+          <span>PH: {pred.ph}</span>
           <span>Umidade: {pred.humidity}</span>
           <span>Chuva: {pred.rainfall}</span>
           <span>Resultado: {pred.predictedLabel}</span>
@@ -88,26 +116,28 @@ const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
       </CardBody>
       <CardFooter className="pt-0 flex items-center space-x-2">
         <Button
-          onClick={() => onDownloadPDF(pred)}
+          onClick={handleDownloadPDF}
           className=" text-xs px-2 py-1 flex items-center"
           size="sm"
         >
           Download
           <FaRegFilePdf className="w-3 h-3 ml-1" />
         </Button>
-          <Button
-            onClick={() => onDelete(pred.id)}
-            variant="text"
-            color="red"
-            size="sm"
-            className="mr-1 flex items-center"
-          >
-            <span>Excluir</span>
-            <AiOutlineDelete className="w-3 h-3 mr-1 " />
-          </Button>
-          <button onClick={() => GerarPDF2(pred)}>Gerar PDF</button>
+        <Button
+          onClick={() => onDelete(pred.id)}
+          variant="text"
+          color="red"
+          size="sm"
+          className="mr-1 flex items-center"
+        >
+          <span>Excluir</span>
+          <AiOutlineDelete className="w-3 h-3 mr-1 " />
+        </Button>
       </CardFooter>
     </Card>
+
+
+
   );
 };
 

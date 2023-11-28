@@ -18,6 +18,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
+
 export default function Historico() {
 
   const navigate = useNavigate();
@@ -118,6 +119,7 @@ export default function Historico() {
                 <div className="lg:max-w-lg">
                   <p className="text-base font-semibold leading-7 text-green-600">Histórico</p>
                   <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Análises realizadas: </h1>
+
                 </div>
               </div>
               <p className="mt-6 text-xl leading-8 text-gray-700 lg:col-span-2">
@@ -129,7 +131,7 @@ export default function Historico() {
             </div>
 
 
-
+            
 
 
 

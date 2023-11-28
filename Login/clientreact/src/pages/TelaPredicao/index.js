@@ -11,9 +11,33 @@ import {
 } from "@material-tailwind/react";
 import { FaTemperatureHigh, FaCloudRain } from "react-icons/fa";
 import { WiHumidity } from "react-icons/wi";
+import html2pdf from 'html2pdf.js';
+import ExportContent from '../../Components/PDF/pdf-react';
+import ReactDOMServer from 'react-dom/server';
 
 
 const GerarPredicaoTeste = () => {
+
+
+    const handleDownloadPDF = (prediction) => {
+        const options = {
+            margin: 10,
+            filename: 'document.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        };
+
+        const exportContent = ReactDOMServer.renderToString(
+            <ExportContent pred={prediction} />
+        );
+
+        html2pdf()
+            .from(exportContent)
+            .set(options)
+            .outputPdf()
+            .save();
+    };
 
     const [Id, setId] = useState(null);
     const [temperature, setTemperature] = useState();
@@ -98,6 +122,7 @@ const GerarPredicaoTeste = () => {
 
 
             const prediction = await response.json();
+            handleDownloadPDF(prediction);
             const scores = prediction.score;
             const maxNumber = Math.max(...scores) * 100;
             setId(prediction.id);
@@ -141,13 +166,14 @@ const GerarPredicaoTeste = () => {
                 nome: nome,
                 data: data
             });
-
+            handleDownloadPDF();
         } catch (error) {
             console.error("Erro na solicitação:", error);
         }
 
-
     };
+
+    
 
     return (
         <div>
