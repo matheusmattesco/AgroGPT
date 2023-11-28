@@ -4,7 +4,7 @@
     {
         Task<bool> Authenticate(string username, string password);
 
-        Task<bool> RegisterUser(string email, string user, string password);
+        Task<bool> RegisterUser(string email, string password);
 
         Task Logout();
     }

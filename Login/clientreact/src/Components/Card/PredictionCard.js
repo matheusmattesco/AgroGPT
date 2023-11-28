@@ -7,6 +7,8 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
+
+
 import { FaRegFilePdf } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai';
 import riceImg from '../../assets/culturas_img/arroz.jpg';
@@ -16,7 +18,7 @@ import kidneyBeansImg from '../../assets/culturas_img/feijao.jpg';
 import pigeonPeasImg from '../../assets/culturas_img/ervilha.jpg';
 import mothBeansImg from '../../assets/culturas_img/feijao2.jpg';
 import mungBeanImg from '../../assets/culturas_img/feijao3.jpg';
-import blackGramImg from '../../assets/culturas_img/feijao4.webp';
+import blackGramImg from '../../assets/culturas_img/feijao4.jpg';
 import lentilImg from '../../assets/culturas_img/lentilha.jpg';
 import pomegranateImg from '../../assets/culturas_img/roma.jpg';
 import bananaImg from '../../assets/culturas_img/banana.jpg';
@@ -69,14 +71,27 @@ const cultureImages = {
 
 const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
 
+  const scores = JSON.parse(pred.scoreJson);
+  const maxNumber = (Math.max(...scores) * 100).toFixed(2);
+
+  const dataOriginal = new Date(pred.data);
+  const dia = String(dataOriginal.getDate()).padStart(2, '0');
+  const mes = String(dataOriginal.getMonth() + 1).padStart(2, '0'); // Os meses são baseados em zero, então adicionamos 1
+  const ano = dataOriginal.getFullYear();
+
+  const dataFormatada = `${dia}/${mes}/${ano}`;
+
   const handleDownloadPDF = () => {
     const options = {
-      margin: 0,
+      margin: 10,
       filename: 'relatório.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     };
+
+
+
 
     const exportContent = ReactDOMServer.renderToString(
       <ExportContent pred={pred} />
@@ -88,6 +103,8 @@ const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
       .outputPdf()
       .save();
   };
+
+  
 
   return (
     <Card className="mt-6 w-80 " id='Card'>
@@ -103,15 +120,11 @@ const PredictionCard = ({ pred, onDownloadPDF, onDelete }) => {
           {`Id: ${pred.id}`}
         </Typography>
         <Typography className='text-xs flex flex-col'>
-          <span>Autor: {pred.autor}</span>
           <span>Nome: {pred.nome} </span>
-          <span>Nitrogênio: {pred.n} </span>
-          <span>Fósforo: {pred.p}</span>
-          <span>Potássio: {pred.k}</span>
-          <span>PH: {pred.ph}</span>
-          <span>Umidade: {pred.humidity}</span>
-          <span>Chuva: {pred.rainfall}</span>
+          <span>Autor: {pred.autor}</span>
+          <span>Data: {dataFormatada} </span>
           <span>Resultado: {pred.predictedLabel}</span>
+          <span>Acurácia: {maxNumber}%</span>
         </Typography>
       </CardBody>
       <CardFooter className="pt-0 flex items-center space-x-2">

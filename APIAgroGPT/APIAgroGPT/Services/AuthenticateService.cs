@@ -24,11 +24,11 @@ namespace APIAgroGPT.Services
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<bool> RegisterUser(string email, string user, string password)
+        public async Task<bool> RegisterUser(string email, string password)
         {
             var appUser = new IdentityUser
             {
-                UserName = user,
+                UserName = email,
                 Email = email,
             };
 

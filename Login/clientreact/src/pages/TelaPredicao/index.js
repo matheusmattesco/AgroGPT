@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../Components/Header/header';
 import Footer from '../../Components/Footer/footer';
-import GerarPDF from '../../Components/PDF/pdf';
 import {
     Button,
     Dialog,
@@ -75,6 +74,19 @@ const GerarPredicaoTeste = () => {
     };
 
     const handlePredict = async () => {
+
+        if (
+            nValue < 0 || nValue > 140 ||
+            pValue < 5 || pValue > 145 ||
+            kValue < 5 || kValue > 205 ||
+            temperature < 8 || temperature > 45 ||
+            humidity < 14 || humidity > 100 ||
+            phValue < 3 || phValue > 10 
+        ) {
+            alert('Por favor, insira valores válidos nos campos.');
+            return;
+        }
+        
         const inputData = {
             Autor: Autor,
             Nome: nome,
@@ -146,32 +158,30 @@ const GerarPredicaoTeste = () => {
             setPredictedLabel(newPredictedLabel);
             setResult2(JSON.stringify(labeledScores, null, 2));
             setMaxNumber(maxNumber.toFixed(2));
-
-            GerarPDF({
-                id: Id,
-                n: nValue,
-                p: pValue,
-                k: kValue,
-                temperature: temperature,
-                humidity: humidity,
-                ph: phValue,
-                rainfall: rainfallValue,
-                label: "teste",
-                featuresJson: "", // Adicione os valores corretos aqui
-                features: [0], // Adicione os valores corretos aqui
-                predictedLabel: newPredictedLabel,
-                scoreJson: "", // Adicione os valores corretos aqui
-                score: [0], // Adicione os valores corretos aqui
-                autor: Autor,
-                nome: nome,
-                data: data
-            });
             handleDownloadPDF();
         } catch (error) {
             console.error("Erro na solicitação:", error);
         }
 
     };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+      
+        // Validar os valores antes de prosseguir
+        if (
+          nValue < 0 || nValue > 140 ||
+          pValue < 5 || pValue > 145 ||
+          kValue < 5 || kValue > 205 ||
+          temperature < 8 || temperature > 45 ||
+          humidity < 14 || humidity > 100 ||
+          phValue < 3 || phValue > 10 ||
+          rainfallValue < 20 || rainfallValue > 300
+        ) {
+          alert('Por favor, insira valores válidos nos campos.');
+          return;
+        }
+      };
 
     
 
@@ -218,7 +228,7 @@ const GerarPredicaoTeste = () => {
                         </div>
                     </div>
                     <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
-                        <form className="max-w-md ml-10">
+                        <form className="max-w-md ml-10" onSubmit={handleFormSubmit}>
                             <div className="relative z-0 w-full mb-5 group">
                                 <input
                                     type="text"
@@ -255,6 +265,8 @@ const GerarPredicaoTeste = () => {
                                         type="number"
                                         id="nValue"
                                         step="0.1"
+                                        min='0'
+                                        max='140'
                                         value={nValue}
                                         onChange={(e) => setNValue(parseFloat(e.target.value))}
                                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 peer"
@@ -285,6 +297,8 @@ const GerarPredicaoTeste = () => {
                                         type="number"
                                         id="pValue"
                                         step="0.1"
+                                        min='5'
+                                        max='145'
                                         value={pValue}
                                         onChange={(e) => setPValue(parseFloat(e.target.value))}
                                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 peer"
@@ -300,6 +314,8 @@ const GerarPredicaoTeste = () => {
                                         id="kValue"
                                         step="0.1"
                                         value={kValue}
+                                        min='5'
+                                        max='205'
                                         onChange={(e) => setKValue(parseFloat(e.target.value))}
                                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                                         placeholder=" "
@@ -317,6 +333,8 @@ const GerarPredicaoTeste = () => {
                                         id="temperature"
                                         step="0.1"
                                         value={temperature}
+                                        min='8'
+                                        max='45'
                                         onChange={(e) => setTemperature(parseFloat(e.target.value))}
                                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                                         placeholder=" "
@@ -332,6 +350,8 @@ const GerarPredicaoTeste = () => {
                                         id="humidity"
                                         step="0.1"
                                         value={humidity}
+                                        min='14'
+                                        max='100'
                                         onChange={(e) => setHumidity(parseFloat(e.target.value))}
                                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                                         placeholder=" "
@@ -347,6 +367,8 @@ const GerarPredicaoTeste = () => {
                                         type="number"
                                         id="phValue"
                                         step="0.1"
+                                        min='3'
+                                        max='10'
                                         value={phValue}
                                         onChange={(e) => setPhValue(parseFloat(e.target.value))}
                                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 peer"
@@ -362,6 +384,8 @@ const GerarPredicaoTeste = () => {
                                         type="number"
                                         id="rainfallValue"
                                         step="0.1"
+                                        min='20'
+                                        max='300'
                                         value={rainfallValue}
                                         onChange={(e) => setRainfallValue(parseFloat(e.target.value))}
                                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 peer"
@@ -417,6 +441,7 @@ const GerarPredicaoTeste = () => {
                                         </div>
                                         <span>
                                             <strong className="font-semibold text-gray-900">Nitrogênio.</strong> É um dos principais nutrientes essenciais para o crescimento das plantas. Ele desempenha um papel crucial na formação de proteínas, que são fundamentais para o desenvolvimento estrutural e funcional das plantas.
+                                            <p className=' text-xs'>Valores: 0 a 140</p>
                                         </span>
                                     </li>
                                     <li className="flex gap-x-3">
@@ -425,6 +450,7 @@ const GerarPredicaoTeste = () => {
                                         </div>
                                         <span>
                                             <strong className="font-semibold text-gray-900">Fósforo.</strong> É essencial para processos vitais como a transferência de energia nas células das plantas. É fundamental no desenvolvimento das raízes, na floração e na formação de sementes.
+                                            <p className=' text-xs'>Valores: 5 a 145</p>
                                         </span>
                                     </li>
                                     <li className="flex gap-x-3">
@@ -433,18 +459,21 @@ const GerarPredicaoTeste = () => {
                                         </div>
                                         <span>
                                             <strong className="font-semibold text-gray-900">Potássio.</strong> É crucial para várias funções nas plantas, incluindo a regulação do balanço hídrico, ativação de enzimas, fortalecimento das células e melhoria da resistência a doenças e estresses.
+                                            <p className=' text-xs'>Valores: 5 a 205</p>
                                         </span>
                                     </li>
                                     <li className="flex gap-x-3">
                                         <FaTemperatureHigh className="mt-1 h-5 w-5 flex-none text-green-600" aria-hidden="true" />
                                         <span>
                                             <strong className="font-semibold text-gray-900">Temperatura.</strong> Influencia a atividade biológica no solo, incluindo a decomposição da matéria orgânica. Temperaturas adequadas são vitais para o crescimento e desenvolvimento das plantas.
+                                            <p className=' text-xs'>Valores: 8 a 45</p>
                                         </span>
                                     </li>
                                     <li className="flex gap-x-3">
                                         <WiHumidity className="mt-1 h-8 w-8 flex-none text-green-600 ml-[-0.8rem]" aria-hidden="true" />
                                         <span>
                                             <strong className="font-semibold text-gray-900 ">Umidade.</strong> Afeta a disponibilidade de água para as plantas. Demasiada umidade pode levar à falta de oxigênio nas raízes, enquanto a falta de umidade pode causar estresse hídrico.
+                                            <p className=' text-xs'>Valores: 14 a 100</p>
                                         </span>
                                     </li>
                                     <li className="flex gap-x-3">
@@ -453,12 +482,14 @@ const GerarPredicaoTeste = () => {
                                         </div>
                                         <span>
                                             <strong className="font-semibold text-gray-900">Ph.</strong> Indica se o solo é ácido, neutro ou alcalino. Isso afeta a disponibilidade de nutrientes para as plantas, pois alguns nutrientes são mais facilmente absorvidos em determinados níveis de pH.
+                                            <p className=' text-xs'>Valores: 3 a 10</p>
                                         </span>
                                     </li>
                                     <li className="flex gap-x-3">
                                         <FaCloudRain className="mt-1 h-5 w-5 flex-none text-green-600" aria-hidden="true" />
                                         <span>
                                             <strong className="font-semibold text-gray-900">Quantidade de Chuva.</strong>  Afeta diretamente o suprimento de água disponível para as plantas. O equilíbrio adequado de chuva é essencial para um crescimento saudável das plantas.
+                                            <p className=' text-xs'>Valores: 20 a 300</p>
                                         </span>
                                     </li>
                                 </ul>
@@ -479,10 +510,13 @@ const GerarPredicaoTeste = () => {
                     >
                         <DialogHeader>Download realizado com sucesso.</DialogHeader>
                         <DialogBody>
-                            Por gentileza acesse a aba de downloads e acesse seu relatório em PDF.
-                            Id do relatório: {Id}
+                            Id da análise: <b className=' font-semibold'>{Id}</b> 
+                            <br />
+                            <br />
                             A Melhor cultura para o seu solo é {predictedLabel} e com a porcentagem de sucesso de {maxNumber}%
-                            Acesse o <a href="">Histórico</a> para realizar novamente o download da sua análise {Id}
+                            <br />
+                            <br />
+                            Acesse o <a href="" className=' text-green-600 font-semibold'>Histórico</a> para realizar novamente o download da sua análise
 
                         </DialogBody>
                         <DialogFooter>

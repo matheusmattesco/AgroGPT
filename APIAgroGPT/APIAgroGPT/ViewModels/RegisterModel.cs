@@ -10,8 +10,6 @@ namespace APIAgroGPT.ViewModels
 
         public string Email { get; set; }
 
-        public string Nome { get; set; }
-
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

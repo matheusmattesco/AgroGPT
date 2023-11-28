@@ -12,7 +12,6 @@ import {
 
 export default function Cadastro() {
     const [email, setEmail] = useState('');
-    const [nome, setNome] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
@@ -39,7 +38,6 @@ export default function Cadastro() {
 
         const data = {
             email,
-            nome,
             password,
             confirmPassword
         };
@@ -64,12 +62,6 @@ export default function Cadastro() {
             <section className="form">
                 <img src={logoImage} alt="cadastro" id="img1" />
                 <form onSubmit={handleSignUp}>
-                    <input
-                            className="input-cadastro"
-                            placeholder="Nome"
-                            value={nome}
-                            onChange={e => setNome(e.target.value)}
-                        />
                     <input
                         className="input-cadastro"
                         placeholder="Email"

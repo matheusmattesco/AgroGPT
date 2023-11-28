@@ -31,17 +31,19 @@ namespace APIAgroGPT.Controllers
         [HttpPost("CreateUser")]
         public async Task<ActionResult<UserToken>> CreateUser([FromBody] RegisterModel model)
         {
-            if (model.Password != model.ConfirmPassword) 
+            if (model.Password != model.ConfirmPassword)
             {
                 ModelState.AddModelError("ConfirmPassword", "As senhas não conferem");
                 return BadRequest(ModelState);
             }
 
-            var result = await _authentication.RegisterUser(model.Email, model.Nome, model.Password);
+            var result = await _authentication.RegisterUser(model.Email, model.Password);
 
             if (result)
             {
-                return Ok($"Usuário {model.Email} criado com sucesso");
+                // Use as informações do RegisterModel para gerar o token
+                var userInfo = new LoginModel { Email = model.Email, Password = model.Password };
+                return GenerateToken(userInfo);
             }
             else
             {
