@@ -58,6 +58,9 @@ function CSVLoader() {
             }
           }
         },
+        markers: {
+          size: 4,
+        },
         colors: [
             '#119136', '#ffb6c1', '#add8e6', '#98fb98', '#dda0dd', '#87ceeb',
             '#f08080', '#90ee90', '#ff6347', '#dda0dd', '#00fa9a', '#ff69b4',
